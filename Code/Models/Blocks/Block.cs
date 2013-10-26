@@ -1,6 +1,9 @@
 ﻿namespace BaconGameJam6.Models.Blocks
 {
+    using System.Collections.Generic;
+
     using BaconGameJam6.Models.Boards;
+    using BaconGameJam6.Models.States;
 
     public enum BlockType
     {
@@ -23,5 +26,10 @@
         }
 
         public BlockType BlockType { get; private set; }
+
+        protected override IState OnRowChanged(int oldRow, int newRow)
+        {
+            return new Falling(this);
+        }
     }
 }

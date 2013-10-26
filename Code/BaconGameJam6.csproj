@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Blocks\Block.cs" />
+    <Compile Include="Models\Blocks\Falling.cs" />
+    <Compile Include="Models\Player\Sliding.cs" />
+    <Compile Include="Models\States\IState.cs" />
     <Compile Include="Models\Boards\Board.cs" />
     <Compile Include="Models\Boards\BoardPiece.cs" />
     <Compile Include="Models\Player\Ship.cs" />
