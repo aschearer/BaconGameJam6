@@ -8,6 +8,8 @@
 
     public class Simulation
     {
+        public event EventHandler<EventArgs> SuccessfulMatch; 
+
         private readonly Board board;
 
         private readonly Ship ship;
@@ -16,6 +18,7 @@
         {
             this.board = new Board(5, 10);
             this.ship = new Ship(this.board, 3, 9, PlayerId.One);
+            this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
             for (int col = 0; col < this.board.NumberOfColumns; col++)
             {
@@ -55,11 +58,29 @@
             this.ship.FireMainWeapon();
         }
 
+        public void OnAddRow()
+        {
+            this.board.PushBlocksDown();
+            this.board.AddNewRow();
+        }
+
         public void Update(TimeSpan elapsedTime)
         {
             foreach (var piece in this.board)
             {
                 piece.Update(elapsedTime);
+            }
+        }
+
+        private void OnMatch(object sender, MatchEventArgs e)
+        {
+            if (!e.IsMatch)
+            {
+                this.OnAddRow();
+            }
+            else
+            {
+                this.SuccessfulMatch(this, new EventArgs());
             }
         }
     }

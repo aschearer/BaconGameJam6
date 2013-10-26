@@ -86,6 +86,11 @@
             }
         }
 
+        public void Destroy()
+        {
+            this.Board.Remove(this);
+        }
+
         public bool Equals(Ship other)
         {
             return this.id == other.id;

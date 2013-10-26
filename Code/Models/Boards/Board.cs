@@ -4,6 +4,8 @@ namespace BaconGameJam6.Models.Boards
     using System.Collections;
     using System.Collections.Generic;
 
+    using BaconGameJam6.Models.Blocks;
+
     public class Board : IEnumerable<BoardPiece>
     {
         public readonly int NumberOfColumns;
@@ -37,6 +39,28 @@ namespace BaconGameJam6.Models.Boards
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        public void PushBlocksDown()
+        {
+            foreach (var boardPiece in pieces)
+            {
+                var block = boardPiece as Block;
+                if (block != null)
+                {
+                    block.Row++;
+                }
+            }
+        }
+
+        public void AddNewRow()
+        {
+            for (int col = 0; col < this.NumberOfColumns; col++)
+            {
+                var block = new Block(this, col, -1, BlockType.Blue);
+                block.Row = 0;
+                this.Add(block);
+            }
         }
     }
 }
