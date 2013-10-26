@@ -10,6 +10,8 @@
     {
         private static int idGenerator;
 
+        protected readonly Board Board;
+
         private readonly int id;
         private readonly Queue<IState> states; 
 
@@ -17,12 +19,13 @@
 
         private int row;
 
-        protected BoardPiece(int col, int row)
+        protected BoardPiece(Board board, int col, int row)
         {
+            this.Board = board;
             this.id = ++idGenerator;
             this.states = new Queue<IState>();
-            this.X = this.Column = col;
-            this.Y = this.Row = row;
+            this.X = this.column = col;
+            this.Y = this.row = row;
             this.Z = 0;
         }
 
@@ -42,8 +45,7 @@
                 {
                     int oldColumn = this.column;
                     this.column = value;
-                    var state = this.OnColumnChanged(oldColumn, this.column);
-                    if (state != null)
+                    foreach (var state in this.OnColumnChanged(oldColumn, this.column))
                     {
                         this.states.Enqueue(state);
                     }
@@ -63,8 +65,7 @@
                 {
                     int oldRow = this.row;
                     this.row = value;
-                    var state = this.OnRowChanged(oldRow, this.row);
-                    if (state != null)
+                    foreach (var state in this.OnRowChanged(oldRow, this.row))
                     {
                         this.states.Enqueue(state);
                     }
@@ -105,12 +106,12 @@
             return string.Format("{0}-{1}", this.GetType().Name, this.id);
         }
 
-        protected virtual IState OnRowChanged(int oldRow, int newRow)
+        protected virtual IEnumerable<IState> OnRowChanged(int oldRow, int newRow)
         {
             return null;
         }
 
-        protected virtual IState OnColumnChanged(int oldColumn, int newColumn)
+        protected virtual IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)
         {
             return null;
         }

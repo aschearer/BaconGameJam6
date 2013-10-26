@@ -19,17 +19,17 @@
 
     public class Block : BoardPiece
     {
-        public Block(int col, int row, BlockType blockType)
-            : base(col, row)
+        public Block(Board board, int col, int row, BlockType blockType)
+            : base(board, col, row)
         {
             this.BlockType = blockType;
         }
 
         public BlockType BlockType { get; private set; }
 
-        protected override IState OnRowChanged(int oldRow, int newRow)
+        protected override IEnumerable<IState> OnRowChanged(int oldRow, int newRow)
         {
-            return new Falling(this);
+            yield return new Falling(this);
         }
     }
 }

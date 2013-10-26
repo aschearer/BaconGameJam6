@@ -14,14 +14,14 @@
 
         public Simulation()
         {
-            this.ship = new Ship(3, 9, PlayerId.One);
             this.board = new Board(5, 10);
+            this.ship = new Ship(this.board, 3, 9, PlayerId.One);
             this.board.Add(this.ship);
             for (int col = 0; col < this.board.NumberOfColumns; col++)
             {
                 for (int row = 0; row < 3; row++)
                 {
-                    this.board.Add(new Block(col, row, BlockType.Blue));
+                    this.board.Add(new Block(this.board, col, row, BlockType.Blue));
                 }
             }
         }
