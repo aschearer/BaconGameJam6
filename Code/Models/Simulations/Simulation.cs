@@ -9,7 +9,7 @@
 
         public Simulation()
         {
-            this.board = new Board(5, 10);
+            this.board = new Board(5, 10, PlayerId.One);
             for (int col = 0; col < this.board.NumberOfColumns; col++)
             {
                 for (int row = 0; row < 3; row++)

@@ -36,13 +36,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Blocks\Block.cs" />
     <Compile Include="Models\Boards\Board.cs" />
+    <Compile Include="Models\Player\Ship.cs" />
     <Compile Include="Models\Simulations\Simulation.cs" />
   </ItemGroup>
   <ItemGroup>

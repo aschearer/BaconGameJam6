@@ -14,11 +14,14 @@ namespace BaconGameJam6.Models.Boards
 
         private readonly List<Block> blocks;
 
-        public Board(int numberOfColumns, int numberOfRows)
+        private readonly Ship ship;
+
+        public Board(int numberOfColumns, int numberOfRows, PlayerId playerId)
         {
             this.NumberOfColumns = numberOfColumns;
             this.NumberOfRows = numberOfRows;
             this.blocks = new List<Block>();
+            this.ship = new Ship(numberOfColumns / 2, numberOfRows - 1, playerId);
         }
 
         public void Add(Block block)
