@@ -1,6 +1,6 @@
-﻿namespace BaconGameJam6.Models.Blocks
+﻿namespace BaconGameJam6.Models.Player
 {
-    using System;
+    using BaconGameJam6.Models.Boards;
 
     public enum PlayerId
     {
@@ -8,47 +8,14 @@
         Two
     }
 
-    public class Ship : IEquatable<Ship>
+    public class Ship : BoardPiece
     {
-        private static int idGenerator = 0;
-        private readonly int id;
-
         public Ship(int col, int row, PlayerId playerId)
+            : base(col, row)
         {
-            this.id = ++idGenerator;
-            this.X = this.Column = col;
-            this.Y = this.Row = row;
             this.PlayerId = playerId;
         }
 
         public PlayerId PlayerId { get; private set; }
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
-
-        public int Column { get; set; }
-
-        public int Row { get; set; }
-
-        public bool Equals(Ship other)
-        {
-            return this.id == other.id;
-        }
-
-        public override int GetHashCode()
-        {
-            return this.id;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var ship = obj as Ship;
-            return ship != null && this.Equals(ship);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0} Ship-{1}", this.PlayerId, this.id);
-        }
     }
 }

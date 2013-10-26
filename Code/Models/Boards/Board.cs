@@ -4,39 +4,34 @@ namespace BaconGameJam6.Models.Boards
     using System.Collections;
     using System.Collections.Generic;
 
-    using BaconGameJam6.Models.Blocks;
-
-    public class Board : IEnumerable<Block>
+    public class Board : IEnumerable<BoardPiece>
     {
         public readonly int NumberOfColumns;
 
         public readonly int NumberOfRows;
 
-        private readonly List<Block> blocks;
+        private readonly List<BoardPiece> pieces;
 
-        private readonly Ship ship;
-
-        public Board(int numberOfColumns, int numberOfRows, PlayerId playerId)
+        public Board(int numberOfColumns, int numberOfRows)
         {
             this.NumberOfColumns = numberOfColumns;
             this.NumberOfRows = numberOfRows;
-            this.blocks = new List<Block>();
-            this.ship = new Ship(numberOfColumns / 2, numberOfRows - 1, playerId);
+            this.pieces = new List<BoardPiece>();
         }
 
-        public void Add(Block block)
+        public void Add(BoardPiece piece)
         {
-            this.blocks.Add(block);
+            this.pieces.Add(piece);
         }
 
-        public void Remove(Block block)
+        public void Remove(BoardPiece piece)
         {
-            this.blocks.Remove(block);
+            this.pieces.Remove(piece);
         }
 
-        public IEnumerator<Block> GetEnumerator()
+        public IEnumerator<BoardPiece> GetEnumerator()
         {
-            return this.blocks.GetEnumerator();
+            return this.pieces.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

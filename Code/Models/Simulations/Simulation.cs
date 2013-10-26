@@ -2,6 +2,7 @@
 {
     using BaconGameJam6.Models.Blocks;
     using BaconGameJam6.Models.Boards;
+    using BaconGameJam6.Models.Player;
 
     public class Simulation
     {
@@ -9,7 +10,8 @@
 
         public Simulation()
         {
-            this.board = new Board(5, 10, PlayerId.One);
+            this.board = new Board(5, 10);
+            this.board.Add(new Ship(3, 9, PlayerId.One));
             for (int col = 0; col < this.board.NumberOfColumns; col++)
             {
                 for (int row = 0; row < 3; row++)

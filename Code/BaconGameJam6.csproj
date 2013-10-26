@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Models\Blocks\Block.cs" />
     <Compile Include="Models\Boards\Board.cs" />
+    <Compile Include="Models\Boards\BoardPiece.cs" />
     <Compile Include="Models\Player\Ship.cs" />
     <Compile Include="Models\Simulations\Simulation.cs" />
   </ItemGroup>
@@ -50,7 +51,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)..\Assets\Code</PostBuildEvent>
+    <PostBuildEvent>xcopy /YR "$(TargetPath)" "$(SolutionDir)..\Assets\Code"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
