@@ -9,6 +9,9 @@
         Blue,
         Yellow,
         Black,
+        Orange,
+        Purple,
+        White,
     }
 
     public class Block : IEquatable<Block>

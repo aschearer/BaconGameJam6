@@ -3,11 +3,12 @@ using System.Collections;
 using BaconGameJam6.Models.Simulations;
 using BaconGameJam6.Models.Boards;
 using BaconGameJam6.Models.Blocks;
+using System.Collections.Generic;
 
 public class GameLoop : MonoBehaviour {
 	
 	public GameObject Board;
-	public GameObject BlueBlock;
+	public List<GameObject> Blocks;
 	public GameObject Ship;
 
 	private Simulation simulation;
@@ -20,7 +21,7 @@ public class GameLoop : MonoBehaviour {
 		
 		foreach (Block block in board)
 		{
-			GameObject blockView = Instantiate(BlueBlock, new Vector3(block.X, block.Y, block.Z), Quaternion.identity) as GameObject;
+			GameObject blockView = Instantiate(Blocks[(int)block.BlockType], new Vector3(block.X, block.Y, block.Z), Quaternion.identity) as GameObject;
 			blockView.transform.parent = boardView.transform;
 		}
 		
