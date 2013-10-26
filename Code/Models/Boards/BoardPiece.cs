@@ -29,9 +29,9 @@
             this.Z = 0;
         }
 
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
+        public float X { get; protected set; }
+        public float Y { get; protected set; }
+        public float Z { get; protected set; }
 
         public int Column
         {
@@ -75,6 +75,7 @@
 
         public void Update(TimeSpan elapsedTime)
         {
+            this.OnUpdate(elapsedTime);
             if (this.states.Count > 0)
             {
                 this.states.Peek().Update(elapsedTime);
@@ -104,6 +105,10 @@
         public override string ToString()
         {
             return string.Format("{0}-{1}", this.GetType().Name, this.id);
+        }
+
+        protected virtual void OnUpdate(TimeSpan elapsedTimeSpan)
+        {
         }
 
         protected virtual IEnumerable<IState> OnRowChanged(int oldRow, int newRow)

@@ -1,24 +1,22 @@
 ﻿namespace BaconGameJam6.Models.Player
 {
-    using System.Collections.Generic;
+    using System;
 
     using BaconGameJam6.Models.Boards;
-    using BaconGameJam6.Models.States;
 
     public class Missile : BoardPiece
     {
+        private const float Velocity = 0.1f;
+
         public Missile(Board board, int col, int row)
             : base(board, col, row)
         {
         }
 
-        protected override IEnumerable<IState> OnRowChanged(int oldRow, int newRow)
+        protected override void OnUpdate(TimeSpan elapsedTimeSpan)
         {
-            return new IState[]
-            {
-                new Rocketing(this),
-                new Exploding(this),
-            };
+            this.Y -= Missile.Velocity;
+            this.Row = (int)this.Y;
         }
 
         public void Destroy()

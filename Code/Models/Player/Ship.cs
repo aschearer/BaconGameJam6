@@ -23,9 +23,7 @@
 
         public void FireMainWeapon()
         {
-            var missile = new Missile(this.Board, this.Column, this.Row);
-            missile.Row = -1;
-            this.Board.Add(missile);
+            this.Board.Add(new Missile(this.Board, this.Column, this.Row));
         }
 
         protected override IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)

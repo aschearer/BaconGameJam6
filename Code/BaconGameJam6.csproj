@@ -44,7 +44,6 @@
     <Compile Include="Models\Blocks\Falling.cs" />
     <Compile Include="Models\Player\Exploding.cs" />
     <Compile Include="Models\Player\Missile.cs" />
-    <Compile Include="Models\Player\Rocketing.cs" />
     <Compile Include="Models\Player\Sliding.cs" />
     <Compile Include="Models\States\IState.cs" />
     <Compile Include="Models\Boards\Board.cs" />
