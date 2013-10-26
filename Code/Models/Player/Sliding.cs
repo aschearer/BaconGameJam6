@@ -3,19 +3,28 @@
     using System;
 
     using BaconGameJam6.Models.States;
+    using BaconGameJam6.Models.Tweens;
 
     public class Sliding : IState
     {
-        public Sliding(Ship ship)
+        private readonly ITween tween;
+
+        public Sliding(Ship block)
         {
-            throw new System.NotImplementedException();
+            this.tween = TweenFactory.Tween(block.X, block.Column, TimeSpan.FromSeconds(0.1));
         }
 
-        public bool IsComplete { get; private set; }
+        public bool IsComplete
+        {
+            get
+            {
+                return this.tween.IsFinished;
+            }
+        }
 
         public void Update(TimeSpan elapsedTime)
         {
-            throw new NotImplementedException();
+            this.tween.Update(elapsedTime);
         }
     }
 }

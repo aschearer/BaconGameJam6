@@ -3,19 +3,28 @@
     using System;
 
     using BaconGameJam6.Models.States;
+    using BaconGameJam6.Models.Tweens;
 
     public class Falling : IState
     {
+        private readonly ITween tween;
+
         public Falling(Block block)
         {
-            throw new System.NotImplementedException();
+            this.tween = TweenFactory.Tween(block.Y, block.Row, TimeSpan.FromSeconds(0.1));
         }
 
-        public bool IsComplete { get; private set; }
+        public bool IsComplete
+        {
+            get
+            {
+                return this.tween.IsFinished;
+            }
+        }
 
         public void Update(TimeSpan elapsedTime)
         {
-            throw new NotImplementedException();
+            this.tween.Update(elapsedTime);
         }
     }
 }
