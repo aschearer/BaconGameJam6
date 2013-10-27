@@ -3,16 +3,16 @@
     using System;
     using System.Collections.Generic;
 
-    using BaconGameJam6.Models.Player;
     using BaconGameJam6.Models.States;
 
     public abstract class BoardPiece : IEquatable<BoardPiece>
     {
         private static int idGenerator;
 
+        public readonly int Id;
+
         protected readonly Board Board;
 
-        private readonly int id;
         private readonly Queue<IState> states; 
 
         private int column;
@@ -22,7 +22,7 @@
         protected BoardPiece(Board board, int col, int row)
         {
             this.Board = board;
-            this.id = ++idGenerator;
+            this.Id = ++idGenerator;
             this.states = new Queue<IState>();
             this.X = this.column = col;
             this.Y = this.row = row;
@@ -101,12 +101,12 @@
 
         public bool Equals(BoardPiece other)
         {
-            return this.id == other.id;
+            return this.Id == other.Id;
         }
 
         public override int GetHashCode()
         {
-            return this.id;
+            return this.Id;
         }
 
         public override bool Equals(object obj)
@@ -117,7 +117,7 @@
 
         public override string ToString()
         {
-            return string.Format("{0}-{1}", this.GetType().Name, this.id);
+            return string.Format("{0}-{1}", this.GetType().Name, this.Id);
         }
 
         protected virtual void OnUpdate(TimeSpan elapsedTimeSpan)
@@ -132,12 +132,12 @@
 
         protected virtual IEnumerable<IState> OnRowChanged(int oldRow, int newRow)
         {
-            return null;
+            return new IState[0];
         }
 
         protected virtual IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)
         {
-            return null;
+            return new IState[0];
         }
     }
 }

@@ -20,6 +20,7 @@
 
         public Simulation(PlayerId playerId)
         {
+            this.PlayerId = playerId;
             this.board = new Board(5, 10);
             this.ship = new Ship(this.board, 2, 9, playerId);
             this.ship.Match += this.OnMatch;
@@ -43,6 +44,7 @@
 
         public bool IsDefeated { get; private set; }
         public bool IsPaused { get; set; }
+        public PlayerId PlayerId { get; private set; }
 
         public void OnMoveLeft()
         {

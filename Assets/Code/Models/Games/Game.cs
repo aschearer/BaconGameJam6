@@ -94,5 +94,20 @@
                 this.states.Enqueue(new Ending(this.Simulations));
             }
         }
+
+        public void OnFire(PlayerId playerId)
+        {
+            this.Simulations.First(simulation => simulation.PlayerId == playerId).OnFire();
+        }
+
+        public void OnMoveLeft(PlayerId playerId)
+        {
+            this.Simulations.First(simulation => simulation.PlayerId == playerId).OnMoveLeft();
+        }
+
+        public void OnMoveRight(PlayerId playerId)
+        {
+            this.Simulations.First(simulation => simulation.PlayerId == playerId).OnMoveRight();
+        }
     }
 }

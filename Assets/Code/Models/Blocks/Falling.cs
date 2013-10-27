@@ -7,10 +7,13 @@
 
     public class Falling : IState
     {
+        private readonly Block block;
+
         private readonly ITween tween;
 
         public Falling(Block block)
         {
+            this.block = block;
             this.tween = TweenFactory.Tween(block.Y, block.Row, TimeSpan.FromSeconds(0.1));
         }
 
@@ -25,6 +28,7 @@
         public void Update(TimeSpan elapsedTime)
         {
             this.tween.Update(elapsedTime);
+            this.block.Y = this.tween.Value;
         }
     }
 }

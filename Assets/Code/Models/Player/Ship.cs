@@ -7,6 +7,8 @@
     using BaconGameJam6.Models.Boards;
     using BaconGameJam6.Models.States;
 
+    using UnityEngine;
+
     public enum PlayerId
     {
         One,
@@ -30,11 +32,13 @@
 
         public void FireMainWeapon()
         {
+            Debug.Log("firing ship");
             this.Board.Add(new Missile(this.Board, this, this.Column, this.Row));
         }
 
         protected override IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)
         {
+            Debug.Log("Column Changed");
             yield return new Sliding(this);
         }
 
