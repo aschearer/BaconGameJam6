@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 478132447}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -2, y: 6, z: -.150000006}
+  m_LocalPosition: {x: -2, y: 6, z: -.109999999}
   m_LocalScale: {x: 3.10319996, y: 1, z: 1.74960005}
   m_Children: []
   m_Father: {fileID: 0}
@@ -323,12 +323,12 @@ MonoBehaviour:
   Board: {fileID: 100012, guid: 6f42737871d89e845b1be40427950ed4, type: 2}
   Blocks:
   - {fileID: 100000, guid: 6f52a60aeaa8c4e48a8f5747e6fcc0d0, type: 2}
-  - {fileID: 100000, guid: 6f017e8e9f555c0478dda7f8a9dce1c8, type: 2}
   - {fileID: 100000, guid: 139d1a02db0093b4c94bb7a472621e8b, type: 2}
   - {fileID: 100000, guid: 7c22c130c0e535d4384c721dbe92b6a2, type: 2}
-  - {fileID: 100000, guid: 958cc4c3faaf5d8498f4fbe1b0e279c2, type: 2}
-  - {fileID: 100000, guid: e49151269319a454b95beebb539fff73, type: 2}
+  - {fileID: 100000, guid: 6f017e8e9f555c0478dda7f8a9dce1c8, type: 2}
   - {fileID: 100000, guid: 34a9caddb299d8c458f7cf1efcbc0966, type: 2}
+  - {fileID: 100000, guid: e49151269319a454b95beebb539fff73, type: 2}
   - {fileID: 100000, guid: 8136e06f90e72ba4e87e9870436fbf03, type: 2}
+  - {fileID: 100000, guid: 958cc4c3faaf5d8498f4fbe1b0e279c2, type: 2}
   Ship: {fileID: 100000, guid: 1fac04fda2856524f9239402654e3140, type: 2}
   Missile: {fileID: 100000, guid: d249e28096d487c40a049b05cb62ed71, type: 2}
