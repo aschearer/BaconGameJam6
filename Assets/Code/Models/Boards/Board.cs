@@ -44,6 +44,20 @@ namespace BaconGameJam6.Models.Boards
             return this.GetEnumerator();
         }
 
+        public void Fill()
+        {
+            for (int col = 0; col < this.NumberOfColumns; col++)
+            {
+                for (int row = 0; row < 4; row++)
+                {
+                    int offset = col % 2 == 0 ? 4 : 5;
+                    var block = this.blockFactory.CreateBlock(col, row - offset);
+                    block.Row = row;
+                    this.Add(block);
+                }
+            }
+        }
+
         public void AddNewRow()
         {
             this.PushBlocksDown();
