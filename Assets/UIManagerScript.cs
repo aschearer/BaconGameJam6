@@ -67,19 +67,19 @@ public class UIManagerScript : MonoBehaviour
         {
             case PlayerId.One:
                 this.player1StartPlane.SetActive(false);
-                this.player1ActivePlane.SetActive(true);
+                ////this.player1ActivePlane.SetActive(true);
                 break;
             case PlayerId.Two:
                 this.player2StartPlane.SetActive(false);
-                this.player2ActivePlane.SetActive(true);
+                ////this.player2ActivePlane.SetActive(true);
                 break;
             case PlayerId.Three:
                 this.player3StartPlane.SetActive(false);
-                this.player3ActivePlane.SetActive(true);
+                ////this.player3ActivePlane.SetActive(true);
                 break;
             case PlayerId.Four:
                 this.player4StartPlane.SetActive(false);
-                this.player4ActivePlane.SetActive(true);
+                ////this.player4ActivePlane.SetActive(true);
                 break;
         }
     }
