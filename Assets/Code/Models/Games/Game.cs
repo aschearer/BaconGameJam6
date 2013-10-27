@@ -22,17 +22,35 @@
         
         public void Start(int players)
         {
-            this.Simulations = new Simulation[players];
-            for (int i = 0; i < players; i++)
+            this.Simulations = new Simulation[4];
+            for (int i = 0; i < 4; i++)
             {
                 this.Simulations[i] = new Simulation((PlayerId)i, i);
                 this.Simulations[i].Defeated += this.OnPlayerDefeated;
                 this.Simulations[i].SuccessfulMatch += this.OnSuccessfulMatch;
                 this.Simulations[i].EmptiedBoard += this.OnBoardEmptied;
+                if (i < players)
+                {
+                    this.Simulations[i].EnablePlayer();
+                }
             }
    
             this.isActive = true;
             this.states.Enqueue(new Starting(this));
+        }
+        
+        public Simulation AddPlayer(PlayerId playerId)
+        {
+            var simulation = this.Simulations[(int)playerId];
+            simulation.EnablePlayer();
+            return simulation;
+        }
+        
+        public Simulation RemovePlayer(PlayerId playerId)
+        {
+            var simulation = this.Simulations[(int)playerId];
+            simulation.DisablePlayer();
+            return simulation;
         }
         
         public void Restart()
@@ -81,6 +99,14 @@
             get
             {
                 return this.Simulations.Any(simulation => simulation.Board.IsAnimating);
+            }
+        }
+        
+        public int PlayerCount
+        {
+            get
+            {
+                return this.Simulations.Count(simulation => simulation.HasPlayer);
             }
         }
 
@@ -149,7 +175,7 @@
             var iSimulationToAttack = (iSimulation + 1) % this.Simulations.Length;
             for (; iSimulationToAttack != iSimulation; iSimulationToAttack = (iSimulationToAttack + 1) % this.Simulations.Length)
             {
-                if (!this.Simulations[iSimulationToAttack].IsDefeated)
+                if (!this.Simulations[iSimulationToAttack].IsActive)
                 {
                     this.Simulations[iSimulationToAttack].OnAddRow();
                     break;
@@ -162,7 +188,7 @@
             var matchingSimulation = sender as Simulation;
             foreach (var simulation in this.Simulations)
             {
-                if (simulation != matchingSimulation)
+                if ((simulation != matchingSimulation) && simulation.IsActive)
                 {
                     simulation.Slam();
                 }
@@ -171,7 +197,7 @@
 
         private void OnPlayerDefeated(object sender, EventArgs e)
         {
-            if (this.Simulations.Count(simulation => simulation.IsDefeated) >= this.Simulations.Length - 1)
+            if (this.Simulations.Count(simulation => simulation.IsActive) >= this.Simulations.Length - 1)
             {
                 this.states.Enqueue(new Ending(this));
             }

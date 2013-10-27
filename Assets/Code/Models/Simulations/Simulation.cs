@@ -48,17 +48,35 @@
                 return this.simulationIndex;
             }
         }
-
+  
+        public bool HasPlayer { get; private set; }
+        public bool IsActive
+        {
+            get
+            {
+                return this.hasStarted && !this.IsDefeated && this.HasPlayer;
+            }
+        }
         public bool IsDefeated { get; private set; }
         public bool IsPaused { get; set; }
         public PlayerId PlayerId { get; private set; }
+        
+        public void EnablePlayer()
+        {
+            this.HasPlayer = true;
+        }
+        
+        public void DisablePlayer()
+        {
+            this.HasPlayer = false;
+        }
 
         public void Start()
         {
             Utilities.PlaySound("BoardStart0");
             this.ship.Reset(2, this.board.NumberOfRows - 1);
-            this.board.Add(this.ship);
             this.IsDefeated = false;
+            this.board.Add(this.ship);
             this.board.Fill();
             this.hasStarted = true;
             this.ship.BlockDestroyed += this.OnBlockDestroyed;
@@ -68,11 +86,14 @@
 
         public void Stop()
         {
-            this.hasStarted = false;
-            this.ship.ResetOutstandingBlocks();
-            this.ship.BlockDestroyed -= this.OnBlockDestroyed;
-            this.ship.Match -= this.OnMatch;
-            this.board.RowAdded -= this.OnRowAdded;
+            if (this.hasStarted)
+            {
+                this.hasStarted = false;
+                this.ship.ResetOutstandingBlocks();
+                this.ship.BlockDestroyed -= this.OnBlockDestroyed;
+                this.ship.Match -= this.OnMatch;
+                this.board.RowAdded -= this.OnRowAdded;
+            }
         }
 
         public void OnMoveLeft()
