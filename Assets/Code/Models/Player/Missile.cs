@@ -42,8 +42,8 @@
         public void CollideWith(Block block)
         {
             this.Destroy();
-            this.ship.RecordHit(block);
             block.Destroy();
+            this.ship.RecordHit(block);
         }
     }
 }
