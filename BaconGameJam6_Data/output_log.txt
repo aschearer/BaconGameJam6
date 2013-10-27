@@ -11,7 +11,7 @@ Platform assembly: C:\Users\Ty\Documents\GitHub\BaconGameJam6\BaconGameJam6_Data
 Loading C:\Users\Ty\Documents\GitHub\BaconGameJam6\BaconGameJam6_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: C:\Users\Ty\Documents\GitHub\BaconGameJam6\BaconGameJam6_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\Ty\Documents\GitHub\BaconGameJam6\BaconGameJam6_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.067 seconds
+- Completed reload, in  0.071 seconds
 desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
