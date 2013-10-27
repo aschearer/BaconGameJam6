@@ -42,6 +42,9 @@
   <ItemGroup>
     <Compile Include="Models\Blocks\Block.cs" />
     <Compile Include="Models\Blocks\Falling.cs" />
+    <Compile Include="Models\Games\Ending.cs" />
+    <Compile Include="Models\Games\Game.cs" />
+    <Compile Include="Models\Games\Starting.cs" />
     <Compile Include="Models\Player\MatchEventArgs.cs" />
     <Compile Include="Models\Player\Missile.cs" />
     <Compile Include="Models\Player\Sliding.cs" />

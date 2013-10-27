@@ -18,10 +18,10 @@
 
         private readonly Random random;
 
-        public Simulation()
+        public Simulation(PlayerId playerId)
         {
             this.board = new Board(5, 10);
-            this.ship = new Ship(this.board, 2, 9, PlayerId.One);
+            this.ship = new Ship(this.board, 2, 9, playerId);
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
 
@@ -40,6 +40,9 @@
                 return this.board;
             }
         }
+
+        public bool IsDefeated { get; private set; }
+        public bool IsPaused { get; set; }
 
         public void OnMoveLeft()
         {
@@ -70,6 +73,7 @@
             if (this.board.Any(
                 piece => piece is Block && piece.IsActive && piece.Row == this.board.NumberOfRows - 1))
             {
+                this.IsDefeated = true;
                 this.Defeated(this, new EventArgs());
             }
         }
