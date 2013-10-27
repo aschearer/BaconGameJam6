@@ -34,8 +34,8 @@
             if (block != null)
             {
                 this.Destroy();
-                this.ship.RecordHit(block);
                 block.Destroy();
+                this.ship.RecordHit(block);
             }
         }
 
