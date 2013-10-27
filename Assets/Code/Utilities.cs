@@ -10,7 +10,7 @@ namespace BaconGameJam6
             switch (blockType)
             {
                 case BlockType.Blue:
-                    return new Color(0, 255f / 255f, 231f / 255f);
+                    return new Color(0, 47f / 255f, 248f / 255f);
                 case BlockType.Green:
                     return new Color(0, 218f / 255f, 60f / 255f);
                 case BlockType.Purple:

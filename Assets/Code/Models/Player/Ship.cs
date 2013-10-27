@@ -44,6 +44,7 @@
 
         public void FireMainWeapon()
         {
+            Utilities.PlaySound("FireWeapon0");
             this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
             this.CanFire = false;
         }
@@ -108,22 +109,22 @@
                 this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray(), animate));
             }
 
-            if (!animate)
+            if (!animate && this.outstandingBlocks.Count > 0)
             {
                 bool mismatch = this.outstandingBlocks.Count > 1
                     && this.outstandingBlocks[this.outstandingBlocks.Count - 1].BlockType
                         != this.outstandingBlocks[this.outstandingBlocks.Count - 2].BlockType;
-                if (this.outstandingBlocks.Count == 1 || mismatch)
+                if (mismatch)
+                {
+                    Utilities.PlaySound("MatchError0");
+                }
+                else if (this.outstandingBlocks.Count < 3)
                 {
                     Utilities.PlaySound("Piece1Hit0");
                 }
-                else if (this.outstandingBlocks.Count == 2)
+                else
                 {
-                    Utilities.PlaySound("Piece2Hit0");
-                }
-                else if (this.outstandingBlocks.Count == 3)
-                {
-                    Utilities.PlaySound("Piece3Hit0");
+                    Utilities.PlaySound("MatchSuccess0");
                 }
             }
         }

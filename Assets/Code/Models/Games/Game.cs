@@ -37,6 +37,7 @@
         
         public void Restart()
         {
+            Utilities.PlaySound("Eruption0");
             this.states.Enqueue(new Starting(this));
         }
         

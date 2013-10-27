@@ -217,5 +217,10 @@ namespace BaconGameJam6.Models.Boards
                 }
             }
         }
+
+        public void Shake()
+        {
+            this.shakeTimer = TimeSpan.FromSeconds(1);
+        }
     }
 }
