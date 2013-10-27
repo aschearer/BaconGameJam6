@@ -15,7 +15,7 @@ public class GameLoop : MonoBehaviour
 	private Simulation simulation;
 	
 	void Start () {
-		this.simulation = new Simulation();
+		this.simulation = new Simulation(PlayerId.One);
 		
 		Board board = this.simulation.Board;
 		GameObject boardView = Instantiate(Board, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
