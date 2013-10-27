@@ -44,8 +44,8 @@
 
         public void FireMainWeapon()
         {
-            //Utilities.PlaySound("FireWeapon0");
-            //this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
+            Utilities.PlaySound("FireWeapon0");
+            this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
             this.CanFire = false;
         }
 
