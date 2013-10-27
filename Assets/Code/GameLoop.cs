@@ -28,6 +28,7 @@ public class GameLoop : MonoBehaviour
     {
         var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
         this.game = new Game(players);
+        this.game.Start();
 
         this.boardsViews = new GameObject[this.game.Simulations.Length];
         this.blockViews = new Dictionary<int, GameObject>();

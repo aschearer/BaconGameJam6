@@ -9,6 +9,8 @@
     public class Ending : IState
     {
         private Game game;
+        private double endingTime = 0.0;
+        private static readonly double DelayBeforeReset = 2.0;
         
         public Ending(Game game)
         {
@@ -19,6 +21,15 @@
 
         public void Update(TimeSpan elapsedTime)
         {
+            if (!this.game.IsAnimating)
+            {
+                this.endingTime += elapsedTime.TotalSeconds;
+                if (this.endingTime >= DelayBeforeReset)
+                {
+                    this.IsComplete = true;
+                    this.game.Start();
+                }
+            }
         }
     }
 }
