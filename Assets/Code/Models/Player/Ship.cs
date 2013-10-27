@@ -10,7 +10,8 @@
     public enum PlayerId
     {
         One,
-        Two
+        Two,
+        Three
     }
 
     public class Ship : BoardPiece
