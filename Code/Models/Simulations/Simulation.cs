@@ -1,6 +1,7 @@
 ﻿namespace BaconGameJam6.Models.Simulations
 {
     using System;
+    using System.Linq;
 
     using BaconGameJam6.Models.Blocks;
     using BaconGameJam6.Models.Boards;
@@ -8,7 +9,8 @@
 
     public class Simulation
     {
-        public event EventHandler<EventArgs> SuccessfulMatch; 
+        public event EventHandler<EventArgs> SuccessfulMatch;
+        public event EventHandler<EventArgs> Defeated; 
 
         private readonly Board board;
 
@@ -62,6 +64,11 @@
         {
             this.board.PushBlocksDown();
             this.board.AddNewRow();
+
+            if (this.board.Any(piece => piece is Block && piece.Row == this.board.NumberOfRows - 1))
+            {
+                this.Defeated(this, new EventArgs());
+            }
         }
 
         public void Update(TimeSpan elapsedTime)
