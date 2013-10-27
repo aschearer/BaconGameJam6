@@ -88,6 +88,11 @@
             this.CanMove = false;
             yield return new Sliding(this);
         }
+
+        protected override IEnumerable<IState> OnDestroy()
+        {
+            yield return new Flying(this, this.Board);
+        }
         
         private void UpdateLights(bool animate)
         {

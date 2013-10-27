@@ -129,6 +129,16 @@
             return string.Format("{0}-{1}", this.GetType().Name, this.Id);
         }
 
+        public void Reset(int col, int row)
+        {
+            this.X = this.column = col;
+            this.Y = this.row = row;
+            this.Z = 0;
+            this.Opacity = 1;
+            this.Rotation = 0;
+            this.IsActive = true;
+        }
+
         protected void AddState(IState state)
         {
             this.states.Enqueue(state);

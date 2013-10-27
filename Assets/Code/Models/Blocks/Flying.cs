@@ -20,7 +20,7 @@
 
         private const float ZVelocity = 4;
 
-        private readonly Block block;
+        private readonly BoardPiece boardPiece;
 
         private readonly Board board;
 
@@ -34,9 +34,9 @@
 
         private TimeSpan timeRemaining;
 
-        public Flying(Block block, Board board)
+        public Flying(BoardPiece boardPiece, Board board)
         {
-            this.block = block;
+            this.boardPiece = boardPiece;
             this.board = board;
             this.xVelocity = Random.NextDouble() > 0.5 ? Flying.XVelocity : -Flying.XVelocity;
             this.torque = Random.NextDouble() > 0.5 ? Flying.Torque : -Flying.Torque;
@@ -57,16 +57,16 @@
         {
             this.timeRemaining -= elapsedTime;
             this.opacityTween.Update(elapsedTime);
-            this.block.Opacity = this.opacityTween.Value;
-            this.block.X += this.xVelocity * (float)elapsedTime.TotalSeconds;
-            this.block.Y += this.yVelocity * (float)elapsedTime.TotalSeconds;
-            this.block.Z += Flying.ZVelocity * (float)elapsedTime.TotalSeconds;
-            this.block.Rotation += this.torque * (float)elapsedTime.TotalSeconds;
+            this.boardPiece.Opacity = this.opacityTween.Value;
+            this.boardPiece.X += this.xVelocity * (float)elapsedTime.TotalSeconds;
+            this.boardPiece.Y += this.yVelocity * (float)elapsedTime.TotalSeconds;
+            this.boardPiece.Z += Flying.ZVelocity * (float)elapsedTime.TotalSeconds;
+            this.boardPiece.Rotation += this.torque * (float)elapsedTime.TotalSeconds;
             this.yVelocity += Flying.YAcceleration;
 
             if (this.IsComplete)
             {
-                this.board.Remove(this.block);
+                this.board.Remove(this.boardPiece);
             }
         }
     }

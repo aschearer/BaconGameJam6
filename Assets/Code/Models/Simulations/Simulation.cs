@@ -55,6 +55,8 @@
 
         public void Start()
         {
+            this.ship.Reset(2, this.board.NumberOfRows - 1);
+            this.board.Add(this.ship);
             this.IsDefeated = false;
             this.board.Fill();
             this.hasStarted = true;
@@ -120,6 +122,7 @@
                 piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
             {
                 this.IsDefeated = true;
+                this.ship.Destroy();
                 this.Defeated(this, new EventArgs());
             }
         }

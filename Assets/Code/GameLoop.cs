@@ -72,10 +72,10 @@ public class GameLoop : MonoBehaviour
                 blockView.SetActive(boardPiece.Y > -1);
                 blockView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
 
-                if (!blockView.tag.Equals("Ship"))
-                {
-                    blockView.transform.localEulerAngles = new Vector3(boardPiece.Rotation, 90 + boardPiece.Rotation, boardPiece.Rotation);
-                }
+                bool isShip = blockView.tag.Equals("Ship");
+                float xPadding = isShip ? 90 : 0;
+                float yPadding = isShip ? 0 : 90;
+                blockView.transform.localEulerAngles = new Vector3(xPadding + boardPiece.Rotation, yPadding + boardPiece.Rotation, boardPiece.Rotation);
 
                 var color = blockView.renderer.material.color;
                 color.a = boardPiece.Opacity;
