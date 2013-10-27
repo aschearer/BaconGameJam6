@@ -16,7 +16,6 @@ public class GameLoop : MonoBehaviour
     public List<GameObject> Blocks;
     public GameObject Ship;
     public GameObject Missile;
-    public float Scale;
 
     private Game game;
 
