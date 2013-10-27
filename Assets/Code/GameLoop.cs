@@ -12,8 +12,26 @@ using System.Collections.Generic;
 using BaconGameJam6.Models.Simulations;
 using BaconGameJam6;
 
+public enum GameLoopState
+{
+    MainMenu,
+    Playing,
+}
+
+public class GameLoopStateEventArgs : EventArgs
+{
+    public GameLoopState GameLoopState { get; private set; }
+
+    public GameLoopStateEventArgs(GameLoopState gameLoopState)
+    {
+        this.GameLoopState = gameLoopState;
+    }
+}
+
 public class GameLoop : MonoBehaviour
 {
+    public event EventHandler<GameLoopStateEventArgs> GameLoopStateChanged;
+
     public GameObject Board;
     public List<GameObject> Blocks;
     public GameObject Ship;
@@ -28,13 +46,36 @@ public class GameLoop : MonoBehaviour
 
     void Start()
     {
-        var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
-        this.game = new Game(players);
-        this.game.Start();
+        this.blinkingLights = new List<BlinkingLight>();
 
+        this.game = new Game();
+    }
+    
+    private GameLoopState gameLoopState;
+    public GameLoopState GameLoopState
+    {
+        get
+        {
+            return this.gameLoopState;
+        }
+        
+        private set
+        {
+            this.gameLoopState = value;
+            if (this.GameLoopStateChanged != null)
+            {
+                this.GameLoopStateChanged.Invoke(this, new GameLoopStateEventArgs(value));
+            }
+        }
+    }
+ 
+    public void StartNewGame(int playerCount)
+    {
+        this.GameLoopState = GameLoopState.Playing;
+        
+        this.game.Start(playerCount);
         this.boardsViews = new GameObject[this.game.Simulations.Length];
         this.blockViews = new Dictionary<int, GameObject>();
-        this.blinkingLights = new List<BlinkingLight>();
 
         int startingX = -8;
         for (int i = 0; i < this.game.Simulations.Length; i++)
@@ -47,9 +88,30 @@ public class GameLoop : MonoBehaviour
             }
         }
     }
+    
+    public void EndGame()
+    {
+        if (this.game.Simulations != null)
+        {
+            for (int i = 0; i < this.game.Simulations.Length; i++)
+            {
+                GameObject.Destroy(this.boardsViews[i]);
+                this.boardsViews[i] = null;
+                this.game.Simulations[i].BlockDestroyed -= SetLights;
+            }
+        }
+        this.game.Stop();
+
+        this.GameLoopState = GameLoopState.MainMenu;
+    }
 
     void Update()
     {
+        if (!this.game.CanUpdate)
+        {
+            return;
+        }
+        
         float elapsedTime = Time.deltaTime;
 
         this.ProcessInput();
