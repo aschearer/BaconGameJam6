@@ -127,12 +127,31 @@
 
         private void OnSuccessfulMatch(object sender, EventArgs e)
         {
+            // Figure out the sender's position in the simulations
             var matchingSimulation = sender as Simulation;
-            foreach (var simulation in this.Simulations)
+            var iSimulation = 0;
+            bool found = false;
+            for (; iSimulation < this.Simulations.Length; ++iSimulation)
             {
-                if (simulation != matchingSimulation)
+                if (this.Simulations[iSimulation] == matchingSimulation)
                 {
-                    simulation.OnAddRow();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                return;
+            }
+            
+            // Attack the next simulation that isn't defeated
+            var iSimulationToAttack = (iSimulation + 1) % this.Simulations.Length;
+            for (; iSimulationToAttack != iSimulation; iSimulationToAttack = (iSimulationToAttack + 1) % this.Simulations.Length)
+            {
+                if (!this.Simulations[iSimulationToAttack].IsDefeated)
+                {
+                    this.Simulations[iSimulationToAttack].OnAddRow();
+                    break;
                 }
             }
         }
