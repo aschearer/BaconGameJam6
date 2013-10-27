@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using BaconGameJam6.Models.Simulations;
 using BaconGameJam6.Models.Boards;
@@ -40,5 +40,20 @@ public class GameLoop : MonoBehaviour
 	}
 	
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			this.simulation.OnFire();
+		}
+		
+		if (Input.GetKeyDown(KeyCode.LeftArrow))
+		{
+			this.simulation.OnMoveLeft();
+		}
+		else if (Input.GetKeyDown(KeyCode.RightArrow))
+		{
+			this.simulation.OnMoveRight();
+		}
+		
+		this.simulation.Update(System.TimeSpan.FromSeconds(Time.deltaTime));
 	}
 }

@@ -6,7 +6,7 @@
     using BaconGameJam6.Models.Player;
     using BaconGameJam6.Models.States;
 
-    public abstract class BoardPiece : IEquatable<Ship>
+    public abstract class BoardPiece : IEquatable<BoardPiece>
     {
         private static int idGenerator;
 
@@ -91,7 +91,7 @@
             this.Board.Remove(this);
         }
 
-        public bool Equals(Ship other)
+        public bool Equals(BoardPiece other)
         {
             return this.id == other.id;
         }
