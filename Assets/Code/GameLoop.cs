@@ -211,7 +211,7 @@ public class GameLoop : MonoBehaviour
                 {
                     if (transform.renderer.material.color != newColor)
                     {
-                        this.blinkingLights.Add(new BlinkingLight(transform, transform.renderer.material.color, newColor));
+                        this.blinkingLights.Add(new BlinkingLight(transform, transform.renderer.material.color, newColor, lightBulbIndex, args.IsMatch));
                     }
                 }
                 else
