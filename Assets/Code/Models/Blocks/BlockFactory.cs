@@ -8,17 +8,16 @@
     {
         private readonly Board board;
 
-        private readonly Random random;
+        private static readonly Random RandomGenerator = new Random();
 
         public BlockFactory(Board board)
         {
             this.board = board;
-            this.random = new Random();
         }
 
         public Block CreateBlock(int col, int row, int level)
         {
-            var blockType = (BlockType)this.random.Next(2 + level);
+            var blockType = (BlockType)RandomGenerator.Next(2 + level);
             return new Block(this.board, col, row, blockType);
         }
     }
