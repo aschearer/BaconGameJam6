@@ -27,7 +27,7 @@
 
             this.random = new Random();
 
-            for (int row = 0; row < 3; row++)
+            for (int row = 0; row < 4; row++)
             {
                 SpawnRow(row);
             }
