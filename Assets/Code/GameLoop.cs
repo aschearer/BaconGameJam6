@@ -70,6 +70,8 @@ public class GameLoop : MonoBehaviour
 
                 seenBlocks[boardPiece.Id] = true;
             }
+
+            this.boardsViews[i].transform.localPosition = new Vector3(-8 + 8 * i + simulation.Board.XOffset, simulation.Board.YOffset, 0);
         }
 
         int[] ids = this.blockViews.Keys.ToArray();

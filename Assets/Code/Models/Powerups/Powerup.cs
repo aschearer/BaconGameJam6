@@ -4,6 +4,7 @@
 
     public enum PowerUpType
     {
+        Bomb,
     }
 
     public class Powerup : BoardPiece

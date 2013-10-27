@@ -8,8 +8,12 @@ namespace BaconGameJam6.Models.Boards
 
     using BaconGameJam6.Models.Blocks;
 
+    using Random = System.Random;
+
     public class Board : IEnumerable<BoardPiece>
     {
+        private static readonly Random Random = new Random();
+
         public readonly int NumberOfColumns;
 
         public readonly int NumberOfRows;
@@ -20,6 +24,8 @@ namespace BaconGameJam6.Models.Boards
 
         private int rowsAdded;
 
+        private TimeSpan shakeTimer = TimeSpan.Zero;
+
         public Board(int numberOfColumns, int numberOfRows)
         {
             this.NumberOfColumns = numberOfColumns;
@@ -27,6 +33,9 @@ namespace BaconGameJam6.Models.Boards
             this.pieces = new List<BoardPiece>();
             this.blockFactory = new BlockFactory(this);
         }
+
+        public float XOffset { get; private set; }
+        public float YOffset { get; private set; }
 
         private int Level
         {
@@ -64,6 +73,23 @@ namespace BaconGameJam6.Models.Boards
             return this.GetEnumerator();
         }
 
+        public void Update(TimeSpan elapsedTime)
+        {
+            if (this.shakeTimer > TimeSpan.Zero)
+            {
+                this.shakeTimer -= elapsedTime;
+                if (this.shakeTimer > TimeSpan.Zero)
+                {
+                    this.XOffset = (float)(0.1 - 0.2 * Board.Random.NextDouble());
+                    this.YOffset = (float)(0.1 - 0.2 * Board.Random.NextDouble());
+                }
+                else
+                {
+                    this.XOffset = this.YOffset = 0;
+                }
+            }
+        }
+
         public void Fill()
         {
             for (int col = 0; col < this.NumberOfColumns; col++)
@@ -81,6 +107,7 @@ namespace BaconGameJam6.Models.Boards
         public void AddNewRow()
         {
             this.rowsAdded++;
+            this.shakeTimer = TimeSpan.FromSeconds(0.25);
             this.PushBlocksDown();
             for (int col = 0; col < this.NumberOfColumns; col++)
             {

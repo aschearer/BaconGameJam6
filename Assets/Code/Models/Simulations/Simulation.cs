@@ -98,6 +98,7 @@
 
         public void Update(TimeSpan elapsedTime)
         {
+            this.board.Update(elapsedTime);
             var pieces = this.board.ToArray();
             foreach (var piece in pieces)
             {
@@ -119,7 +120,10 @@
 
         private void OnBlockDestroyed(object sender, MatchEventArgs e)
         {
-            this.BlockDestroyed(this, e);
+            if (this.BlockDestroyed != null)
+            {
+                this.BlockDestroyed(this, e);
+            }
         }
 
         public void OnReload()
