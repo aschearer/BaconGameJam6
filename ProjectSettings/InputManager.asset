@@ -41,7 +41,7 @@ InputManager:
     descriptiveName: Player 1 Fire
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: up
+    positiveButton: w
     altNegativeButton: 
     altPositiveButton: mouse 0
     gravity: 1000
@@ -57,7 +57,7 @@ InputManager:
     descriptiveName: Player 2 Fire
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: w
+    positiveButton: up
     altNegativeButton: 
     altPositiveButton: mouse 1
     gravity: 1000
