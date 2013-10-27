@@ -98,7 +98,8 @@ public class GameLoop : MonoBehaviour
             }
 
             var horizontal = Input.GetAxis("Horizontal" + playerId);
-            if (Math.Abs(horizontal) < 0.0005)
+            Debug.Log(horizontal);
+            if (Math.Abs(horizontal) < 0.000005)
             {
                 this.game.OnStopMoving(this.game.Simulations[i].PlayerId);
             }
