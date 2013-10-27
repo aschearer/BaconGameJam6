@@ -197,7 +197,9 @@
 
         private void OnPlayerDefeated(object sender, EventArgs e)
         {
-            if (this.Simulations.Count(simulation => simulation.IsActive) >= this.Simulations.Length - 1)
+            int activePlayers = this.Simulations.Count(simulation => simulation.IsActive);
+            int totalPlayers = this.Simulations.Count(simulation => simulation.HasPlayer);
+            if (((activePlayers == 1) && (totalPlayers > 1)) || (totalPlayers == 0))
             {
                 this.states.Enqueue(new Ending(this));
             }
