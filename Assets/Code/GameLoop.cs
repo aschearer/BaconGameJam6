@@ -70,7 +70,11 @@ public class GameLoop : MonoBehaviour
                 var blockView = this.blockViews[boardPiece.Id];
                 blockView.SetActive(boardPiece.Y > -1);
                 blockView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
-                blockView.transform.localEulerAngles = new Vector3(boardPiece.Rotation, 90 + boardPiece.Rotation, boardPiece.Rotation);
+
+                if (!blockView.tag.Equals("Ship"))
+                {
+                    blockView.transform.localEulerAngles = new Vector3(boardPiece.Rotation, 90 + boardPiece.Rotation, boardPiece.Rotation);
+                }
 
                 var color = blockView.renderer.material.color;
                 color.a = boardPiece.Opacity;
@@ -215,6 +219,18 @@ public class GameLoop : MonoBehaviour
                         shipChild.renderer.material.color = shipLightColor;
                     }
                 }
+            }
+            else if (transform.tag.Equals("AimingLight"))
+            {
+                // Set the ship's light to the last block's color, unless the array is empty, in which case set the ship's light color to white.
+                Color shipLightColor = new Color(1f, 1f, 1f, 1f);
+
+                if (args.Blocks.Length > 0)
+                {
+                    shipLightColor = Utilities.BlockTypeToColor(args.Blocks[args.Blocks.Length - 1].BlockType);
+                }
+
+                transform.renderer.material.color = shipLightColor;
             }
         }
     }

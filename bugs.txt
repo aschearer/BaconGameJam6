@@ -1,0 +1,2 @@
+Bugs:
+If the tile right above the character is shot (and it's the only tile in the bottom row), if that tile is a mismatch and causes a new row to spawn, even though that tile goes away, it is the lose condition. I think the check for the lose conidition should come after the blocks are removed, not before.
