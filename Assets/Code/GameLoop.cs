@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using BaconGameJam6.Models.Games;
 
@@ -60,6 +61,7 @@ public class GameLoop : MonoBehaviour
 
         this.game.Update(TimeSpan.FromSeconds(Time.deltaTime));
 
+        var seenBlocks = new Dictionary<int, bool>();
         for (int i = 0; i < this.game.Simulations.Length; i++)
         {
             var simulation = this.game.Simulations[i];
@@ -72,6 +74,23 @@ public class GameLoop : MonoBehaviour
 
                 var blockView = this.blockViews[boardPiece.Id];
                 blockView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
+                blockView.transform.localEulerAngles = new Vector3(boardPiece.Rotation, 90 + boardPiece.Rotation, boardPiece.Rotation);
+
+                var color = blockView.renderer.material.color;
+                color.a = boardPiece.Opacity;
+                blockView.renderer.material.color = color;
+
+                seenBlocks[boardPiece.Id] = true;
+            }
+        }
+
+        int[] ids = this.blockViews.Keys.ToArray();
+        foreach (var id in ids)
+        {
+            if (!seenBlocks.ContainsKey(id))
+            {
+                DestroyObject(this.blockViews[id]);
+                this.blockViews.Remove(id);
             }
         }
     }

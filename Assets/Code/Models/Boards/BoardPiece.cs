@@ -35,7 +35,7 @@
         public float Y { get; set; }
         public float Z { get; set; }
         public float Opacity { get; set; }
-        public float Rotaiton { get; protected set; }
+        public float Rotation { get; set; }
         public bool IsActive { get; set; }
 
         public int Column
@@ -93,6 +93,7 @@
 
         public void Destroy()
         {
+            this.IsActive = false;
             foreach (var state in this.OnDestroy())
             {
                 this.states.Enqueue(state);

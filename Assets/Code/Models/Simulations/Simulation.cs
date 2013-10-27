@@ -82,7 +82,8 @@
 
         public void Update(TimeSpan elapsedTime)
         {
-            foreach (var piece in this.board)
+            var pieces = this.board.ToArray();
+            foreach (var piece in pieces)
             {
                 piece.Update(elapsedTime);
             }

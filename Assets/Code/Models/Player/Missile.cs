@@ -10,7 +10,7 @@
     {
         private readonly Ship ship;
 
-        private const float Velocity = 0.1f;
+        private const float Velocity = 1f;
 
         public Missile(Board board, Ship ship, int col, int row)
             : base(board, col, row)
@@ -23,7 +23,7 @@
             this.Y -= Missile.Velocity;
             this.Row = (int)this.Y;
             var block = (Block)this.Board.FirstOrDefault(
-                piece => piece is Block && piece.Column == this.Column && piece.Row == this.Row);
+                piece => piece is Block && piece.Column == this.Column && piece.Row == this.Row && piece.IsActive);
 
             if (block != null)
             {
