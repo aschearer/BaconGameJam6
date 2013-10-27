@@ -44,17 +44,23 @@
 
         public void OnMoveLeft()
         {
-            this.ship.Movement = ShipMovement.Left;
+            if (this.ship.CanMove && this.ship.Column > 0)
+            {
+                this.ship.Column--;
+            }
         }
 
         public void OnMoveRight()
         {
-            this.ship.Movement = ShipMovement.Right;
+            if (this.ship.CanMove && this.ship.Column < this.board.NumberOfColumns - 1)
+            {
+                this.ship.Column++;
+            }
         }
 
         public void OnStopMoving()
         {
-            this.ship.Movement = ShipMovement.None;
+            this.ship.CanMove = true;
         }
 
         public void OnFire()

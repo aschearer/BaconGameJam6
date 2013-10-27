@@ -4,6 +4,7 @@
 
     using BaconGameJam6.Models.States;
     using BaconGameJam6.Models.Tweens;
+    using BaconGameJam6.Models.Tweens.Easings;
 
     public class Sliding : IState
     {
@@ -14,7 +15,7 @@
         public Sliding(Ship ship)
         {
             this.ship = ship;
-            this.tween = TweenFactory.Tween(ship.X, ship.Column, TimeSpan.FromSeconds(0.1));
+            this.tween = TweenFactory.Tween(ship.X, ship.Column, TimeSpan.FromSeconds(0.1), new CubicEasing().EaseIn);
         }
 
         public bool IsComplete
