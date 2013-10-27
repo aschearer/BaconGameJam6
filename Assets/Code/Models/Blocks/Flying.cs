@@ -12,7 +12,7 @@
 
         private const float Torque = 30;
 
-        private const float YAcceleration = 4;
+        private const float YAcceleration = 1;
 
         private const float StartingYVelocity = -6;
 

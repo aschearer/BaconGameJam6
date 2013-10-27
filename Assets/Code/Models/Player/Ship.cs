@@ -5,7 +5,8 @@
 
     using BaconGameJam6.Models.Blocks;
     using BaconGameJam6.Models.Boards;
-    using BaconGameJam6.Models.States;
+
+    using UnityEngine;
 
     public enum PlayerId
     {
@@ -13,8 +14,17 @@
         Two
     }
 
+    public enum ShipMovement
+    {
+        None,
+        Left,
+        Right
+    }
+
     public class Ship : BoardPiece
     {
+        private const float Speed = 8f;
+
         public event EventHandler<MatchEventArgs> Match;
 
         private readonly List<Block> outstandingBlocks; 
@@ -28,14 +38,32 @@
 
         public PlayerId PlayerId { get; private set; }
 
+        public ShipMovement Movement { get; set; }
+
         public void FireMainWeapon()
         {
-            this.Board.Add(new Missile(this.Board, this, this.Column, this.Row));
+            this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
         }
 
-        protected override IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)
+        protected override void OnUpdate(TimeSpan elapsedTimeSpan)
         {
-            yield return new Sliding(this);
+            switch (this.Movement)
+            {
+                case ShipMovement.None:
+                    break;
+                case ShipMovement.Left:
+                    this.X = Math.Max(0, Math.Min(this.Board.NumberOfColumns - 1,  this.X - Ship.Speed * (float)elapsedTimeSpan.TotalSeconds));
+                    this.Column = (int)this.X;
+
+                    break;
+                case ShipMovement.Right:
+                    this.X = Math.Max(0, Math.Min(this.Board.NumberOfColumns - 1, this.X + Ship.Speed * (float)elapsedTimeSpan.TotalSeconds));
+                    this.Column = (int)this.X;
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void RecordHit(Block block)

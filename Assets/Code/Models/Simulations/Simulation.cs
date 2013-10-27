@@ -48,18 +48,17 @@
 
         public void OnMoveLeft()
         {
-            if (this.ship.Column > 0)
-            {
-                this.ship.Column--;
-            }
+            this.ship.Movement = ShipMovement.Left;
         }
 
         public void OnMoveRight()
         {
-            if (this.ship.Column < this.board.NumberOfColumns - 1)
-            {
-                this.ship.Column++;
-            }
+            this.ship.Movement = ShipMovement.Right;
+        }
+
+        public void OnStopMoving()
+        {
+            this.ship.Movement = ShipMovement.None;
         }
 
         public void OnFire()

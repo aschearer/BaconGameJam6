@@ -24,6 +24,8 @@ public class GameLoop : MonoBehaviour
 
     private Dictionary<int, GameObject> blockViews;
 
+    private bool isMoving;
+
     void Start()
     {
         var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
@@ -50,12 +52,21 @@ public class GameLoop : MonoBehaviour
             this.game.OnFire(PlayerId.One);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        var horizontal = Input.GetAxis("Horizontal");
+        if (Math.Abs(horizontal) < 0.0005 && this.isMoving)
         {
+            this.isMoving = false;
+            this.game.OnStopMoving(PlayerId.One);
+            
+        }
+        else if (horizontal < 0)
+        {
+            this.isMoving = true;
             this.game.OnMoveLeft(PlayerId.One);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (horizontal > 0)
         {
+            this.isMoving = true;
             this.game.OnMoveRight(PlayerId.One);
         }
 

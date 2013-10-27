@@ -15,6 +15,7 @@
         public Missile(Board board, Ship ship, int col, int row)
             : base(board, col, row)
         {
+            this.X = ship.X;
             this.ship = ship;
         }
 

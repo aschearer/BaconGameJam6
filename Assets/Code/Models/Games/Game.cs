@@ -109,5 +109,10 @@
         {
             this.Simulations.First(simulation => simulation.PlayerId == playerId).OnMoveRight();
         }
+
+        public void OnStopMoving(PlayerId playerId)
+        {
+            this.Simulations.First(simulation => simulation.PlayerId == playerId).OnStopMoving();
+        }
     }
 }

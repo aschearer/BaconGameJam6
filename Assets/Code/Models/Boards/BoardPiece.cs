@@ -78,6 +78,14 @@
             }
         }
 
+        protected bool IsStateful
+        {
+            get
+            {
+                return this.states.Count > 0;
+            }
+        }
+
         public void Update(TimeSpan elapsedTime)
         {
             this.OnUpdate(elapsedTime);
@@ -119,6 +127,11 @@
         public override string ToString()
         {
             return string.Format("{0}-{1}", this.GetType().Name, this.Id);
+        }
+
+        protected void AddState(IState state)
+        {
+            this.states.Enqueue(state);
         }
 
         protected virtual void OnUpdate(TimeSpan elapsedTimeSpan)
