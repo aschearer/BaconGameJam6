@@ -18,6 +18,7 @@
         private const float Speed = 8f;
 
         public event EventHandler<MatchEventArgs> Match;
+        public event EventHandler<MatchEventArgs> BlockDestroyed;
 
         private readonly List<Block> outstandingBlocks; 
 
@@ -50,6 +51,8 @@
         public void RecordHit(Block block)
         {
             this.outstandingBlocks.Add(block);
+            this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));
+
             if (this.outstandingBlocks.Count == 3 || this.outstandingBlocks.Count == 2 && block.BlockType != this.outstandingBlocks[0].BlockType)
             {
                 this.Match(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));

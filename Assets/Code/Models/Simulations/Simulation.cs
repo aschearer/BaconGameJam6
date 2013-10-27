@@ -10,7 +10,19 @@
     public class Simulation
     {
         public event EventHandler<EventArgs> SuccessfulMatch;
-        public event EventHandler<EventArgs> Defeated; 
+        public event EventHandler<EventArgs> Defeated;
+        public event EventHandler<MatchEventArgs> BlockDestroyed
+        {
+            add
+            {
+                this.ship.BlockDestroyed += value;
+            }
+
+            remove
+            {
+                this.ship.BlockDestroyed -= value;
+            }
+        }
 
         private readonly Board board;
 
