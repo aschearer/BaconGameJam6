@@ -497,6 +497,7 @@ MonoBehaviour:
   - {fileID: 57670917}
   - {fileID: 1471523325}
   - {fileID: 26553754}
+  timeBeforeUpdate: .200000003
 --- !u!1 &360898174
 GameObject:
   m_ObjectHideFlags: 0
