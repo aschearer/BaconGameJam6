@@ -16,6 +16,7 @@ public class TextButton : MonoBehaviour {
     public ButtonAction Action;
     public GameLoop GameLoop;
     private bool keyDown;
+    private bool buttonEnabled;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +28,7 @@ public class TextButton : MonoBehaviour {
     	
 	// Update is called once per frame
 	void Update () {
-        if (this.renderer.enabled)
+        if (this.buttonEnabled)
         {
             // key text
             KeyCode keyCode;
@@ -129,9 +130,9 @@ public class TextButton : MonoBehaviour {
         bool hideIfGamePlaying = (this.Action != ButtonAction.Back);
         
         bool enabledState = (gamePlaying != hideIfGamePlaying);
-        if (enabledState != this.renderer.enabled)
+        if (enabledState != this.buttonEnabled)
         {
-            this.renderer.enabled = enabledState;
+            this.buttonEnabled = enabledState;
         }
     }
     
