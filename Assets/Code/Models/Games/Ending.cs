@@ -10,8 +10,8 @@
     {
         private Game game;
         private double endingTime = 0.0;
-        private static readonly double DelayBeforeReset = 2.0;
-        
+        private static readonly double DelayBeforeReset = 1.0;
+
         public Ending(Game game)
         {
             this.game = game;

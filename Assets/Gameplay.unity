@@ -1208,6 +1208,7 @@ MonoBehaviour:
   Player3StartPlane: {fileID: 100000, guid: 12d4a6a0a88f36f448085eb552d67eea, type: 2}
   Player4StartPlane: {fileID: 100000, guid: 00e6024948e7f17468ef14b4f3225a71, type: 2}
   InGamePlane: {fileID: 100000, guid: 95c8d3533b57d534f858c182059d4f8e, type: 2}
+  GameLoop: {fileID: 1843350126}
 --- !u!1 &1278227586
 GameObject:
   m_ObjectHideFlags: 0
