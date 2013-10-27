@@ -8,13 +8,13 @@
     public enum BlockType
     {
         Red,
-        Green,
         Blue,
         Yellow,
-        Black,
-        Orange,
+        Green,
         Purple,
+        Orange,
         White,
+        Black,
     }
 
     public class Block : BoardPiece
