@@ -59,7 +59,10 @@
 
         public void OnFire()
         {
-            this.ship.FireMainWeapon();
+            if (this.ship.CanFire)
+            {
+                this.ship.FireMainWeapon();
+            }
         }
 
         public void OnAddRow()
@@ -93,6 +96,11 @@
             {
                 this.SuccessfulMatch(this, new EventArgs());
             }
+        }
+
+        public void OnReload()
+        {
+            this.ship.ReloadWeapon();
         }
     }
 }

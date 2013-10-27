@@ -34,15 +34,32 @@
         {
             this.PlayerId = playerId;
             this.outstandingBlocks = new List<Block>();
+            this.CanFire = true;
         }
 
         public PlayerId PlayerId { get; private set; }
 
         public ShipMovement Movement { get; set; }
 
+        public bool IsMoving
+        {
+            get
+            {
+                return this.Movement != ShipMovement.None;
+            }
+        }
+
+        public bool CanFire { get; private set; }
+
         public void FireMainWeapon()
         {
             this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
+            this.CanFire = false;
+        }
+
+        public void ReloadWeapon()
+        {
+            this.CanFire = true;
         }
 
         protected override void OnUpdate(TimeSpan elapsedTimeSpan)

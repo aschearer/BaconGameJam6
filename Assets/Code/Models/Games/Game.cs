@@ -114,5 +114,10 @@
         {
             this.Simulations.First(simulation => simulation.PlayerId == playerId).OnStopMoving();
         }
+
+        public void OnReload(PlayerId playerId)
+        {
+            this.Simulations.First(simulation => simulation.PlayerId == playerId).OnReload();
+        }
     }
 }

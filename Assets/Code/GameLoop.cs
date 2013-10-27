@@ -23,8 +23,6 @@ public class GameLoop : MonoBehaviour
 
     private Dictionary<int, GameObject> blockViews;
 
-    private bool isMoving;
-
     void Start()
     {
         var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
@@ -46,28 +44,7 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            this.game.OnFire(PlayerId.One);
-        }
-
-        var horizontal = Input.GetAxis("Horizontal");
-        if (Math.Abs(horizontal) < 0.0005 && this.isMoving)
-        {
-            this.isMoving = false;
-            this.game.OnStopMoving(PlayerId.One);
-            
-        }
-        else if (horizontal < 0)
-        {
-            this.isMoving = true;
-            this.game.OnMoveLeft(PlayerId.One);
-        }
-        else if (horizontal > 0)
-        {
-            this.isMoving = true;
-            this.game.OnMoveRight(PlayerId.One);
-        }
+        this.ProcessInput();
 
         this.game.Update(TimeSpan.FromSeconds(Time.deltaTime));
 
@@ -101,6 +78,36 @@ public class GameLoop : MonoBehaviour
             {
                 DestroyObject(this.blockViews[id]);
                 this.blockViews.Remove(id);
+            }
+        }
+    }
+
+    private void ProcessInput()
+    {
+        for (int i = 0; i < this.game.Simulations.Length; i++)
+        {
+            int playerId = i + 1;
+            if (Input.GetAxis("Fire" + playerId) > 0)
+            {
+                this.game.OnFire(this.game.Simulations[i].PlayerId);
+            }
+            else
+            {
+                this.game.OnReload(this.game.Simulations[i].PlayerId);
+            }
+
+            var horizontal = Input.GetAxis("Horizontal" + playerId);
+            if (Math.Abs(horizontal) < 0.0005)
+            {
+                this.game.OnStopMoving(this.game.Simulations[i].PlayerId);
+            }
+            else if (horizontal < 0)
+            {
+                this.game.OnMoveLeft(this.game.Simulations[i].PlayerId);
+            }
+            else if (horizontal > 0)
+            {
+                this.game.OnMoveRight(this.game.Simulations[i].PlayerId);
             }
         }
     }
