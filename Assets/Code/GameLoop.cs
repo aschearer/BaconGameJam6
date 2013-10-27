@@ -60,7 +60,7 @@ public class GameLoop : MonoBehaviour
                 }
 
                 var blockView = this.blockViews[boardPiece.Id];
-                blockView.SetActive(boardPiece.Row > -1);
+                blockView.SetActive(boardPiece.Y > -1);
                 blockView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
                 blockView.transform.localEulerAngles = new Vector3(boardPiece.Rotation, 90 + boardPiece.Rotation, boardPiece.Rotation);
 

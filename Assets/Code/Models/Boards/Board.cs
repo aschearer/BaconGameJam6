@@ -1,6 +1,7 @@
 ﻿
 namespace BaconGameJam6.Models.Boards
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -16,12 +17,22 @@ namespace BaconGameJam6.Models.Boards
 
         private readonly BlockFactory blockFactory;
 
+        private int rowsAdded;
+
         public Board(int numberOfColumns, int numberOfRows)
         {
             this.NumberOfColumns = numberOfColumns;
             this.NumberOfRows = numberOfRows;
             this.pieces = new List<BoardPiece>();
             this.blockFactory = new BlockFactory(this);
+        }
+
+        private int Level
+        {
+            get
+            {
+                return Math.Min(8, 1 + (this.rowsAdded / 5));
+            }
         }
 
         public void Add(BoardPiece piece)
@@ -51,7 +62,7 @@ namespace BaconGameJam6.Models.Boards
                 for (int row = 0; row < 4; row++)
                 {
                     int offset = col % 2 == 0 ? 4 : 5;
-                    var block = this.blockFactory.CreateBlock(col, row - offset);
+                    var block = this.blockFactory.CreateBlock(col, row - offset, this.Level);
                     block.Row = row;
                     this.Add(block);
                 }
@@ -60,10 +71,11 @@ namespace BaconGameJam6.Models.Boards
 
         public void AddNewRow()
         {
+            this.rowsAdded++;
             this.PushBlocksDown();
             for (int col = 0; col < this.NumberOfColumns; col++)
             {
-                var block = this.blockFactory.CreateBlock(col, -1);
+                var block = this.blockFactory.CreateBlock(col, -1, this.Level);
                 block.Row = 0;
                 this.Add(block);
             }

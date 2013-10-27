@@ -16,9 +16,9 @@
             this.random = new Random();
         }
 
-        public Block CreateBlock(int col, int row)
+        public Block CreateBlock(int col, int row, int level)
         {
-            var blockType = (BlockType)this.random.Next(3);
+            var blockType = (BlockType)this.random.Next(2 + level);
             return new Block(this.board, col, row, blockType);
         }
     }
