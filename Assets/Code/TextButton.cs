@@ -65,9 +65,47 @@ public class TextButton : MonoBehaviour {
         }
     }
     
-    void OnMouseOver()
+    private bool mouseOver;
+    private bool mouseDown;
+    void OnMouseEnter()
     {
-        // $TODO:
+        this.mouseOver = true;
+        UpdateColor();
+    }
+    
+    void OnMouseDown()
+    {
+        this.mouseDown = true;
+        UpdateColor();
+    }
+    
+    void OnMouseUp()
+    {
+        this.mouseDown = false;
+        UpdateColor();
+    }
+    
+    void OnMouseExit()
+    {
+        this.mouseOver = false;
+        this.mouseDown = false;
+        UpdateColor();
+    }
+    
+    void UpdateColor()
+    {
+        Color newColor = Color.white;
+        if (mouseDown)
+        {
+            newColor = Color.blue;
+        } else if (mouseOver)
+        {
+            newColor = Color.green;
+        }
+        if (this.transform.renderer.material.color != newColor)
+        {
+            this.transform.renderer.material.color = newColor;
+        }
     }
     
     void OnGameLoopStateChanged(object sender, GameLoopStateEventArgs args)
