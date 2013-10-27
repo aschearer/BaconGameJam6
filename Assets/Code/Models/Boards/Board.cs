@@ -7,6 +7,7 @@ namespace BaconGameJam6.Models.Boards
     using System.Linq;
 
     using BaconGameJam6.Models.Blocks;
+    using BaconGameJam6.Models.Player;
 
     using Random = System.Random;
 
@@ -53,6 +54,18 @@ namespace BaconGameJam6.Models.Boards
             }
         }
         
+        public void Clear()
+        {
+            this.rowsAdded = 0;
+            this.pieces.ForEach(piece =>
+            {
+                if (!(piece is Ship))
+                {
+                    piece.Destroy();
+                }
+            });
+        }
+        
         public void Add(BoardPiece piece)
         {
             this.pieces.Add(piece);
@@ -92,6 +105,16 @@ namespace BaconGameJam6.Models.Boards
 
         public void Fill()
         {
+            this.pieces.ForEach(piece =>
+            {
+                if (piece is Ship)
+                {
+                    Ship ship = piece as Ship;
+                    ship.ReloadWeapon();
+                    ship.Column = ship.StartingColumn;
+                }
+            });
+
             for (int col = 0; col < this.NumberOfColumns; col++)
             {
                 for (int row = 0; row < 4; row++)

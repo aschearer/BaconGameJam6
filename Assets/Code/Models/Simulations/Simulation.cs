@@ -28,8 +28,6 @@
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
             this.simulationIndex = simulationIndex;
-
-            this.board.Fill();
         }
 
         public Board Board

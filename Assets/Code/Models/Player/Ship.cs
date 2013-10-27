@@ -29,6 +29,7 @@
             this.outstandingBlocks = new List<Block>();
             this.CanFire = true;
             this.CanMove = true;
+            this.StartingColumn = col;
         }
 
         public PlayerId PlayerId { get; private set; }
@@ -42,6 +43,8 @@
             this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
             this.CanFire = false;
         }
+        
+        public int StartingColumn { get; private set; }
 
         public void ReloadWeapon()
         {
