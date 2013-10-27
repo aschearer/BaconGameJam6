@@ -49,12 +49,12 @@ public class BackgroundGridScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        foreach (BackgroundCubeData backgroundCubeData in this.allCubeModels)
-        {
-            backgroundCubeData.BackgroundCube.transform.position = new Vector3(
-                backgroundCubeData.BackgroundCube.transform.position.x,
-                backgroundCubeData.BackgroundCube.transform.position.y,
-                InitialZPosition + MaximumZOffset * Mathf.Cos(Time.timeSinceLevelLoad * backgroundCubeData.Speed + backgroundCubeData.ZOffset));
-        }
+        ////foreach (BackgroundCubeData backgroundCubeData in this.allCubeModels)
+        ////{
+        ////    backgroundCubeData.BackgroundCube.transform.position = new Vector3(
+        ////        backgroundCubeData.BackgroundCube.transform.position.x,
+        ////        backgroundCubeData.BackgroundCube.transform.position.y,
+        ////        InitialZPosition + MaximumZOffset * Mathf.Cos(Time.timeSinceLevelLoad * backgroundCubeData.Speed + backgroundCubeData.ZOffset));
+        ////}
     }
 }
