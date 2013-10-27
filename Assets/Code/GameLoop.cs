@@ -10,6 +10,7 @@ using BaconGameJam6.Models.Blocks;
 using BaconGameJam6.Models.Player;
 using System.Collections.Generic;
 using BaconGameJam6.Models.Simulations;
+using BaconGameJam6;
 
 public class GameLoop : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class GameLoop : MonoBehaviour
 
     private Dictionary<int, GameObject> blockViews;
     private List<BlinkingLight> blinkingLights;
-    
+
     void Start()
     {
         var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
@@ -50,7 +51,7 @@ public class GameLoop : MonoBehaviour
     void Update()
     {
         float elapsedTime = Time.deltaTime;
-        
+
         this.ProcessInput();
 
         this.game.Update(TimeSpan.FromSeconds(elapsedTime));
@@ -90,7 +91,7 @@ public class GameLoop : MonoBehaviour
                 this.blockViews.Remove(id);
             }
         }
-        
+
         for (var i = this.blinkingLights.Count; i > 0; --i)
         {
             BlinkingLight light = this.blinkingLights[i - 1];
@@ -163,50 +164,24 @@ public class GameLoop : MonoBehaviour
     private void SetLights(object sender, MatchEventArgs args)
     {
         Simulation simulation = sender as Simulation;
-                
-        Transform[] allChildrenOfBoard = this.boardsViews[simulation.SimulationIndex].GetComponentsInChildren<Transform>();
+
+        GameObject board = this.boardsViews[simulation.SimulationIndex];
+        Transform[] allChildrenOfBoard = board.GetComponentsInChildren<Transform>();
         int lightBulbIndex = 0;
         foreach (Transform transform in allChildrenOfBoard)
         {
             if (transform.tag.Equals("LightBulb"))
             {
                 Color newColor = new Color(0.2f, 0.2f, 0.2f, 1f);
-                
+
                 if (lightBulbIndex < args.Blocks.Length)
                 {
                     BlockType blockType = args.Blocks[lightBulbIndex].BlockType;
-
-                    switch (blockType)
-                    {
-                        case BlockType.Black:
-                            newColor = Color.black;
-                            break;
-                        case BlockType.Blue:
-                            newColor = Color.blue;
-                            break;
-                        case BlockType.Green:
-                            newColor = Color.green;
-                            break;
-                        case BlockType.Orange:
-                            newColor = new Color(1f, 0.5f, 0f, 1f);
-                            break;
-                        case BlockType.Purple:
-                            newColor = new Color(1f, 0f, 1f, 1f);
-                            break;
-                        case BlockType.Red:
-                            newColor = Color.red;
-                            break;
-                        case BlockType.White:
-                            newColor = Color.white;
-                            break;
-                        case BlockType.Yellow:
-                            newColor = Color.yellow;
-                            break;
-                    }
+                    newColor = Utilities.BlockTypeToColor(blockType);
                 }
 
                 this.blinkingLights.RemoveAll(light => (light.Transform == transform));
-                
+
                 if (args.Animate)
                 {
                     if (transform.renderer.material.color != newColor)
@@ -215,11 +190,31 @@ public class GameLoop : MonoBehaviour
                     }
                 }
                 else
-                {                    
+                {
                     transform.renderer.material.color = newColor;
                 }
 
                 ++lightBulbIndex;
+            }
+            else if (transform.tag.Equals("Ship"))
+            {
+                Transform[] allChildrenOfShip = transform.GetComponentsInChildren<Transform>();
+
+                foreach (Transform shipChild in allChildrenOfShip)
+                {
+                    if (shipChild.tag.Equals("AimingLight"))
+                    {
+                        // Set the ship's light to the last block's color, unless the array is empty, in which case set the ship's light color to white.
+                        Color shipLightColor = new Color(1f, 1f, 1f, 1f);
+
+                        if (args.Blocks.Length > 0)
+                        {
+                            shipLightColor = Utilities.BlockTypeToColor(args.Blocks[args.Blocks.Length - 1].BlockType);
+                        }
+
+                        shipChild.renderer.material.color = shipLightColor;
+                    }
+                }
             }
         }
     }
