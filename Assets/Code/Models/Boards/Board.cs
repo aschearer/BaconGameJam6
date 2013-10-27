@@ -52,7 +52,7 @@ namespace BaconGameJam6.Models.Boards
         {
             get
             {
-                return Math.Min(8, 1 + (this.rowsAdded / 5));
+                return Math.Min(Enum.GetValues(typeof(BlockType)).Length, 3 + (this.rowsAdded / 5));
             }
         }
 
