@@ -1226,7 +1226,6 @@ MonoBehaviour:
   - {fileID: 100000, guid: 6f017e8e9f555c0478dda7f8a9dce1c8, type: 2}
   - {fileID: 100000, guid: 34a9caddb299d8c458f7cf1efcbc0966, type: 2}
   - {fileID: 100000, guid: 8136e06f90e72ba4e87e9870436fbf03, type: 2}
-  - {fileID: 100000, guid: 958cc4c3faaf5d8498f4fbe1b0e279c2, type: 2}
   Ship: {fileID: 100000, guid: 1fac04fda2856524f9239402654e3140, type: 2}
   Missile: {fileID: 100000, guid: d249e28096d487c40a049b05cb62ed71, type: 2}
 --- !u!1 &2145698318
