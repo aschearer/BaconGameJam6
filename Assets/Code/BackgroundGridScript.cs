@@ -51,7 +51,7 @@ public class BackgroundGridScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        this.RunBackgroundIterations();
+        ////this.RunBackgroundIterations();
     }
 
     private void RunBackgroundIterations()
