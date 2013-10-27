@@ -6,14 +6,14 @@ public class BackgroundGridScript : MonoBehaviour
 {
     public GameObject cubeModel;
 
-    private const int GridXStart = -40;
-    private const int GridWidth = 80;
-    private const int GridYStart = -10;
-    private const int GridHeight = 40;
+    private const int GridXStart = -50;
+    private const int GridWidth = 100;
+    private const int GridYStart = -15;
+    private const int GridHeight = 50;
     private const float InitialZPosition = -3;
     private const float MaximumZOffset = 0.2f;
-    private const float MinimumSpeed = 0.2f;
-    private const float MaximumSpeed = 1f;
+    private const float MinimumSpeed = 0.1f;
+    private const float MaximumSpeed = 0.5f;
     private List<BackgroundCubeData> allCubeModels;
 
     private struct BackgroundCubeData
@@ -34,7 +34,7 @@ public class BackgroundGridScript : MonoBehaviour
             for (int x = GridXStart; x < GridWidth + GridXStart; ++x)
             {
                 GameObject backgroundCube = Instantiate(this.cubeModel, new Vector3(x * 0.5f, y * 0.5f, InitialZPosition), Quaternion.identity) as GameObject;
-                backgroundCube.renderer.material.color = Color.Lerp(Color.Lerp(Color.white, Color.black, Random.Range(0.33f, 0.66f)), Color.blue, 0.1f);
+                backgroundCube.renderer.material.color = Color.Lerp(Color.Lerp(Color.white, Color.black, Random.Range(0.43f, 0.56f)), Color.blue, 0.1f);
 
                 this.allCubeModels.Add(new BackgroundCubeData()
                 {
