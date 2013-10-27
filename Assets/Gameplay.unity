@@ -966,7 +966,6 @@ MonoBehaviour:
   - {fileID: 100000, guid: 7c22c130c0e535d4384c721dbe92b6a2, type: 2}
   - {fileID: 100000, guid: 6f017e8e9f555c0478dda7f8a9dce1c8, type: 2}
   - {fileID: 100000, guid: 34a9caddb299d8c458f7cf1efcbc0966, type: 2}
-  - {fileID: 100000, guid: e49151269319a454b95beebb539fff73, type: 2}
   - {fileID: 100000, guid: 8136e06f90e72ba4e87e9870436fbf03, type: 2}
   - {fileID: 100000, guid: 958cc4c3faaf5d8498f4fbe1b0e279c2, type: 2}
   Ship: {fileID: 100000, guid: 1fac04fda2856524f9239402654e3140, type: 2}

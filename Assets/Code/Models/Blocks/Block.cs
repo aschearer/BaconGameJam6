@@ -12,7 +12,6 @@
         Yellow,
         Green,
         Purple,
-        Orange,
         White,
         Black,
     }
