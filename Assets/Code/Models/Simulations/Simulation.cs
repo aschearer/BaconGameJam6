@@ -29,8 +29,6 @@
             this.PlayerId = playerId;
             this.board = new Board(5, 14);
             this.ship = new Ship(this.board, 2, this.board.NumberOfRows - 1, playerId);
-            this.ship.BlockDestroyed += this.OnBlockDestroyed;
-            this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
             this.simulationIndex = simulationIndex;
         }
@@ -60,11 +58,15 @@
             this.IsDefeated = false;
             this.board.Fill();
             this.hasStarted = true;
+            this.ship.BlockDestroyed += this.OnBlockDestroyed;
+            this.ship.Match += this.OnMatch;
         }
 
         public void Stop()
         {
             this.hasStarted = false;
+            this.ship.BlockDestroyed -= this.OnBlockDestroyed;
+            this.ship.Match -= this.OnMatch;
         }
 
         public void OnMoveLeft()

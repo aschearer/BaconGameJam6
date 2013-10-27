@@ -167,7 +167,7 @@ namespace BaconGameJam6.Models.Boards
                 bottomMostRow = this.pieces.Where(piece => piece is Block && piece.IsActive).Max(piece => piece.Row);
             }
 
-            int numberOfRowsToAdd = Math.Min(4, this.NumberOfRows - bottomMostRow);
+            int numberOfRowsToAdd = Math.Min(4, this.NumberOfRows - bottomMostRow - 1);
             Debug.Log(numberOfRowsToAdd);
 
             this.rowsAdded += numberOfRowsToAdd;
@@ -195,11 +195,23 @@ namespace BaconGameJam6.Models.Boards
 
         private void PushBlocksDown(int howFar = 1)
         {
-            foreach (var boardPiece in pieces)
+            var boardPieces = this.pieces.ToArray();
+            foreach (var boardPiece in boardPieces)
             {
                 var block = boardPiece as Block;
                 if (block != null && block.IsActive)
                 {
+                    for (int row = block.Row + 1; row <= block.Row + howFar; row++)
+                    {
+                        var missile = (Missile)this.FirstOrDefault(piece =>
+                                    piece.IsActive && piece is Missile && piece.Column == block.Column
+                                    && piece.Row == row);
+                        if (missile != null)
+                        {
+                            missile.CollideWith(block);
+                        }
+                    }
+
                     block.Row += howFar;
                 }
             }
