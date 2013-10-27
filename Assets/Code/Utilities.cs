@@ -9,8 +9,6 @@ namespace BaconGameJam6
         {
             switch (blockType)
             {
-                case BlockType.Black:
-                    return Color.black;
                 case BlockType.Blue:
                     return Color.blue;
                 case BlockType.Green:

@@ -13,7 +13,6 @@
         Green,
         Purple,
         White,
-        Black,
     }
 
     public class Block : BoardPiece
