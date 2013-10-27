@@ -57,6 +57,7 @@
 
         public void Start()
         {
+            this.IsDefeated = false;
             this.board.Fill();
             this.hasStarted = true;
         }

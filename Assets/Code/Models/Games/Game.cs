@@ -118,7 +118,7 @@
 
         private void OnPlayerDefeated(object sender, EventArgs e)
         {
-            if (this.Simulations.Count(simulation => simulation.IsDefeated) == this.Simulations.Length - 1)
+            if (this.Simulations.Count(simulation => simulation.IsDefeated) >= this.Simulations.Length - 1)
             {
                 this.states.Enqueue(new Ending(this));
             }
