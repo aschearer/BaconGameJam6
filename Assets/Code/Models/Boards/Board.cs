@@ -9,6 +9,8 @@ namespace BaconGameJam6.Models.Boards
     using BaconGameJam6.Models.Blocks;
     using BaconGameJam6.Models.Player;
 
+    using UnityEngine;
+
     using Random = System.Random;
 
     public class Board : IEnumerable<BoardPiece>
@@ -38,11 +40,27 @@ namespace BaconGameJam6.Models.Boards
         public float XOffset { get; private set; }
         public float YOffset { get; private set; }
 
+        public int NumberOfBlocks
+        {
+            get
+            {
+                return this.pieces.Count(piece => piece is Block);
+            }
+        }
+
         private int Level
         {
             get
             {
                 return Math.Min(8, 1 + (this.rowsAdded / 5));
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return this.pieces.Count;
             }
         }
 
@@ -141,14 +159,42 @@ namespace BaconGameJam6.Models.Boards
             }
         }
 
-        private void PushBlocksDown()
+        public void SlamNewRows()
+        {
+            int bottomMostRow = 4;
+            if (this.NumberOfBlocks > 0)
+            {
+                bottomMostRow = this.pieces.Where(piece => piece is Block && piece.IsActive).Max(piece => piece.Row);
+            }
+
+            int numberOfRowsToAdd = Math.Min(4, this.NumberOfRows - bottomMostRow);
+            Debug.Log(numberOfRowsToAdd);
+
+            this.rowsAdded += numberOfRowsToAdd;
+
+            this.PushBlocksDown(numberOfRowsToAdd);
+
+            this.shakeTimer = TimeSpan.FromSeconds(0.5);
+            for (int col = 0; col < this.NumberOfColumns; col++)
+            {
+                for (int row = 0; row < numberOfRowsToAdd; row++)
+                {
+                    int offset = numberOfRowsToAdd;
+                    var block = this.blockFactory.CreateBlock(col, row - offset, this.Level);
+                    block.Row = row;
+                    this.Add(block);
+                }
+            }
+        }
+
+        private void PushBlocksDown(int howFar = 1)
         {
             foreach (var boardPiece in pieces)
             {
                 var block = boardPiece as Block;
                 if (block != null && block.IsActive)
                 {
-                    block.Row++;
+                    block.Row += howFar;
                 }
             }
         }

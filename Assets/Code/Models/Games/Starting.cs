@@ -31,8 +31,9 @@
                 {
                     foreach (var simulation in game.Simulations)
                     {
-                        simulation.Board.Fill();
+                        simulation.Start();
                     }
+
                     this.hasFilled = true;
                 }
                 else

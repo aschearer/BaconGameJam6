@@ -15,6 +15,10 @@
         public Ending(Game game)
         {
             this.game = game;
+            foreach (var simulation in game.Simulations)
+            {
+                simulation.Stop();
+            }
         }
 
         public bool IsComplete { get; private set; }

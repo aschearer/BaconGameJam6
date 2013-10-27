@@ -23,6 +23,7 @@
                 this.Simulations[i] = new Simulation(players[i], i);
                 this.Simulations[i].Defeated += this.OnPlayerDefeated;
                 this.Simulations[i].SuccessfulMatch += this.OnSuccessfulMatch;
+                this.Simulations[i].EmptiedBoard += this.OnBoardEmptied;
             }
         }
 
@@ -99,6 +100,18 @@
                 if (simulation != matchingSimulation)
                 {
                     simulation.OnAddRow();
+                }
+            }
+        }
+
+        private void OnBoardEmptied(object sender, EventArgs e)
+        {
+            var matchingSimulation = sender as Simulation;
+            foreach (var simulation in this.Simulations)
+            {
+                if (simulation != matchingSimulation)
+                {
+                    simulation.Slam();
                 }
             }
         }

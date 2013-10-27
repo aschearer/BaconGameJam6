@@ -7,9 +7,12 @@
     using BaconGameJam6.Models.Boards;
     using BaconGameJam6.Models.Player;
 
+    using UnityEngine;
+
     public class Simulation
     {
         public event EventHandler<EventArgs> SuccessfulMatch;
+        public event EventHandler<EventArgs> EmptiedBoard;
         public event EventHandler<EventArgs> Defeated;
         public event EventHandler<MatchEventArgs> BlockDestroyed;
 
@@ -18,6 +21,8 @@
         private readonly Ship ship;
 
         private readonly int simulationIndex;
+
+        private bool hasStarted;
 
         public Simulation(PlayerId playerId, int simulationIndex)
         {
@@ -49,6 +54,17 @@
         public bool IsDefeated { get; private set; }
         public bool IsPaused { get; set; }
         public PlayerId PlayerId { get; private set; }
+
+        public void Start()
+        {
+            this.board.Fill();
+            this.hasStarted = true;
+        }
+
+        public void Stop()
+        {
+            this.hasStarted = false;
+        }
 
         public void OnMoveLeft()
         {
@@ -98,7 +114,7 @@
             this.board.AddNewRow();
 
             if (this.board.Any(
-                piece => piece is Block && piece.IsActive && piece.Row == this.board.NumberOfRows - 1))
+                piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
             {
                 this.IsDefeated = true;
                 this.Defeated(this, new EventArgs());
@@ -107,6 +123,12 @@
 
         public void Update(TimeSpan elapsedTime)
         {
+            if (this.hasStarted && this.board.NumberOfBlocks == 0)
+            {
+                this.EmptiedBoard(this, new EventArgs());
+                this.board.SlamNewRows();
+            }
+
             this.board.Update(elapsedTime);
             var pieces = this.board.ToArray();
             foreach (var piece in pieces)
@@ -138,6 +160,17 @@
         public void OnReload()
         {
             this.ship.ReloadWeapon();
+        }
+
+        public void Slam()
+        {
+            this.board.SlamNewRows();
+            if (this.board.Any(
+                piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
+            {
+                this.IsDefeated = true;
+                this.Defeated(this, new EventArgs());
+            }
         }
     }
 }
