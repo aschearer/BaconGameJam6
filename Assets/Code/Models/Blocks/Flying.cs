@@ -8,11 +8,11 @@
 
     public class Flying : IState
     {
-        private static readonly Random random = new Random();
+        private static readonly Random Random = new Random();
 
-        private const float Torque = 30;
+        private const float Torque = 60;
 
-        private const float YAcceleration = 0f;
+        private const float YAcceleration = 0.5f;
 
         private const float StartingYVelocity = -6;
 
@@ -38,11 +38,10 @@
         {
             this.block = block;
             this.board = board;
-            this.xVelocity = random.NextDouble() > 0.5 ? Flying.XVelocity : -Flying.XVelocity;
-            this.torque = random.NextDouble() > 0.5 ? Flying.Torque : -Flying.Torque;
-            this.xVelocity = Flying.XVelocity;
+            this.xVelocity = Random.NextDouble() > 0.5 ? Flying.XVelocity : -Flying.XVelocity;
+            this.torque = Random.NextDouble() > 0.5 ? Flying.Torque : -Flying.Torque;
             this.yVelocity = Flying.StartingYVelocity;
-            this.timeRemaining = TimeSpan.FromSeconds(1);
+            this.timeRemaining = TimeSpan.FromSeconds(0.5);
             this.opacityTween = TweenFactory.Tween(1, 0, this.timeRemaining);
         }
 
@@ -63,7 +62,6 @@
             this.block.Y += this.yVelocity * (float)elapsedTime.TotalSeconds;
             this.block.Z += Flying.ZVelocity * (float)elapsedTime.TotalSeconds;
             this.block.Rotation += this.torque * (float)elapsedTime.TotalSeconds;
-            this.block.Rotation += Flying.Torque * (float)elapsedTime.TotalSeconds;
             this.yVelocity += Flying.YAcceleration;
 
             if (this.IsComplete)
