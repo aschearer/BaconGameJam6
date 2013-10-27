@@ -16,8 +16,6 @@
 
         private readonly Ship ship;
 
-        private readonly Random random;
-
         public Simulation(PlayerId playerId)
         {
             this.PlayerId = playerId;
@@ -26,11 +24,9 @@
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
 
-            this.random = new Random();
-
             for (int row = 0; row < 4; row++)
             {
-                SpawnRow(row);
+                this.board.AddNewRow();
             }
         }
 
@@ -68,7 +64,6 @@
 
         public void OnAddRow()
         {
-            this.board.PushBlocksDown();
             this.board.AddNewRow();
 
             if (this.board.Any(
@@ -97,14 +92,6 @@
             else
             {
                 this.SuccessfulMatch(this, new EventArgs());
-            }
-        }
-
-        private void SpawnRow(int row)
-        {
-            for (int col = 0; col < this.board.NumberOfColumns; col++)
-            {
-                this.board.Add(new Block(this.board, col, row, (BlockType)this.random.Next(8)));
             }
         }
     }
