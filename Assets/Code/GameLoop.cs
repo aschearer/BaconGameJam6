@@ -86,7 +86,9 @@ public class GameLoop : MonoBehaviour
     private Game game;
 
     private GameObject[] boardsViews;
- 
+
+<<<<<<< Updated upstream
+=======
     private static readonly BoardTransformSet[] boardTransformSets =
     {
         new BoardTransformSet(-4, 1f),
@@ -94,7 +96,8 @@ public class GameLoop : MonoBehaviour
         new BoardTransformSet(-12, 1f, -4, 1f, 4, 1f),
         new BoardTransformSet(-10, 1f, -4, 1f, 2, 1f, 8, 1f),
     };
-    
+
+>>>>>>> Stashed changes
     private Dictionary<int, GameObject> blockViews;
     private List<BlinkingLight> blinkingLights;
 
@@ -130,15 +133,17 @@ public class GameLoop : MonoBehaviour
         this.game.Start(playerCount);
         this.boardsViews = new GameObject[this.game.Simulations.Length];
         this.blockViews = new Dictionary<int, GameObject>();
-                    
+<<<<<<< Updated upstream
+
+        int startingX = -8;
+=======
+                   
         BoardTransformSet boardTransformSet = boardTransformSets[this.game.Simulations.Length - 1];
-        
+
+>>>>>>> Stashed changes
         for (int i = 0; i < this.game.Simulations.Length; i++)
         {
-            BoardTransform boardTransform = boardTransformSet.Transforms[i];
-            this.boardsViews[i] = Instantiate(Board, boardTransform.position, Quaternion.identity) as GameObject;
-            this.boardsViews[i].transform.localScale = boardTransform.scale;
-            this.game.Simulations[i].Board.TargetPosition = boardTransform.position;
+            this.boardsViews[i] = Instantiate(Board, new Vector3(startingX + 8 * i, 0, 0), Quaternion.identity) as GameObject;
             this.game.Simulations[i].BlockDestroyed += SetLights;
             foreach (BoardPiece boardPiece in this.game.Simulations[i].Board)
             {
@@ -212,7 +217,7 @@ public class GameLoop : MonoBehaviour
                 seenBlocks[boardPiece.Id] = true;
             }
 
-            this.boardsViews[i].transform.localPosition = new Vector3(simulation.Board.TargetPosition.x + simulation.Board.XOffset, simulation.Board.YOffset, 0);
+            this.boardsViews[i].transform.localPosition = new Vector3(-8 + 8 * i + simulation.Board.XOffset, simulation.Board.YOffset, 0);
         }
 
         int[] ids = this.blockViews.Keys.ToArray();
