@@ -105,6 +105,7 @@ public class GameLoop : MonoBehaviour
         this.blinkingLights = new List<BlinkingLight>();
 
         this.game = new Game();
+        this.StartNewGame(0);
     }
     
     private GameLoopState gameLoopState;
@@ -151,6 +152,10 @@ public class GameLoop : MonoBehaviour
                     this.boardsViews[i] = null;
                 }
                 this.game.Simulations[i].BlockDestroyed -= SetLights;
+                if (this.game.Simulations[i].HasPlayer)
+                {
+                    this.game.RemovePlayer((PlayerId)i);
+                }
             }
         }
         this.game.Stop();
@@ -171,13 +176,13 @@ public class GameLoop : MonoBehaviour
                 this.states.Dequeue();
             }
         }
+        
+        this.ProcessInput();
 
         if (!this.game.CanUpdate)
         {
             return;
         }
-        
-        this.ProcessInput();
 
         this.game.Update(elapsedTimeSpan);
 
@@ -247,18 +252,15 @@ public class GameLoop : MonoBehaviour
     private void ProcessInput()
     {
         bool updateBoards = false;
+        bool hasPlayers = this.game.PlayerCount != 0;
+        bool canUpdate = this.game.CanUpdate;
         
-        if (!this.game.InputEnabled)
-        {
-            return;
-        }
-  
         for (int i = 0; i < this.game.Simulations.Length; i++)
         {
             var simulation = this.game.Simulations[i];
             int inputId = i + 1;
             
-            if (simulation.HasPlayer)
+            if (simulation.HasPlayer && canUpdate)
             {
                 if (Input.GetAxis("Fire" + inputId) > 0)
                 {
@@ -299,7 +301,7 @@ public class GameLoop : MonoBehaviour
             }
         }
                 
-        if (this.game.PlayerCount == 0)
+        if (hasPlayers && (this.game.PlayerCount == 0))
         {
             EndGame();
         }

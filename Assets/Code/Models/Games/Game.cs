@@ -175,7 +175,7 @@
             var iSimulationToAttack = (iSimulation + 1) % this.Simulations.Length;
             for (; iSimulationToAttack != iSimulation; iSimulationToAttack = (iSimulationToAttack + 1) % this.Simulations.Length)
             {
-                if (!this.Simulations[iSimulationToAttack].IsActive)
+                if (this.Simulations[iSimulationToAttack].IsActive)
                 {
                     this.Simulations[iSimulationToAttack].OnAddRow();
                     break;
