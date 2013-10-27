@@ -51,6 +51,15 @@
             this.CanFire = true;
         }
 
+        public void ResetOutstandingBlocks()
+        {
+            this.outstandingBlocks.Clear();
+            if (this.BlockDestroyed != null)
+            {
+                this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));
+            }
+        }
+        
         public void Bump()
         {
             this.CanMove = false;
