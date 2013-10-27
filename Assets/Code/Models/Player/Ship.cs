@@ -69,7 +69,7 @@
         public void RecordHit(Block block)
         {
             this.outstandingBlocks.Add(block);
-            if (this.outstandingBlocks.Count == 3)
+            if (this.outstandingBlocks.Count == 3 || this.outstandingBlocks.Count == 2 && block.BlockType != this.outstandingBlocks[0].BlockType)
             {
                 this.Match(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));
                 this.outstandingBlocks.Clear();
