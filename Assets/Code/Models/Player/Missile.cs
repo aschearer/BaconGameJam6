@@ -29,8 +29,7 @@
 
             this.Y -= Missile.Velocity;
             this.Row = (int)this.Y;
-            var block = (Block)this.Board.FirstOrDefault(
-                piece => piece is Block && piece.Column == this.Column && piece.Row == this.Row && piece.IsActive);
+            var block = this.Board.GetBlockAt(this.Column, this.Row);
 
             if (block != null)
             {

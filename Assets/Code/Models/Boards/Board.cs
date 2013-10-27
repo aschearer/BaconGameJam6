@@ -187,7 +187,13 @@ namespace BaconGameJam6.Models.Boards
             }
         }
 
-        private void PushBlocksDown(int howFar)
+        public Block GetBlockAt(int col, int row)
+        {
+            return (Block)this.FirstOrDefault(
+                piece => piece.IsActive && piece is Block && piece.Column == col && piece.Row == row);
+        }
+
+        private void PushBlocksDown(int howFar = 1)
         {
             foreach (var boardPiece in pieces)
             {
