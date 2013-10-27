@@ -20,7 +20,7 @@
             this.Simulations = new Simulation[players.Length];
             for (int i = 0; i < players.Length; i++)
             {
-                this.Simulations[i] = new Simulation(players[i]);
+                this.Simulations[i] = new Simulation(players[i], i);
                 this.Simulations[i].Defeated += this.OnPlayerDefeated;
                 this.Simulations[i].SuccessfulMatch += this.OnSuccessfulMatch;
             }

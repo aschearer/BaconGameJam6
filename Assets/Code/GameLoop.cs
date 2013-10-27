@@ -9,6 +9,7 @@ using BaconGameJam6.Models.Boards;
 using BaconGameJam6.Models.Blocks;
 using BaconGameJam6.Models.Player;
 using System.Collections.Generic;
+using BaconGameJam6.Models.Simulations;
 
 public class GameLoop : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class GameLoop : MonoBehaviour
         for (int i = 0; i < this.game.Simulations.Length; i++)
         {
             this.boardsViews[i] = Instantiate(Board, new Vector3(startingX + 8 * i, 0, 0), Quaternion.identity) as GameObject;
+            this.game.Simulations[i].BlockDestroyed += SetLights;
             foreach (BoardPiece boardPiece in this.game.Simulations[i].Board)
             {
                 this.blockViews[boardPiece.Id] = this.CreateViewFor(boardPiece, this.boardsViews[i]);
@@ -141,5 +143,57 @@ public class GameLoop : MonoBehaviour
         boardPieceView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
         boardPieceView.transform.parent = parent.transform;
         return boardPieceView;
+    }
+
+    private void SetLights(object sender, MatchEventArgs args)
+    {
+        Simulation simulation = sender as Simulation;
+
+        Transform[] allChildrenOfBoard = this.boardsViews[simulation.SimulationIndex].GetComponentsInChildren<Transform>();
+        int lightBulbIndex = 0;
+        foreach (Transform transform in allChildrenOfBoard)
+        {
+            if (transform.tag.Equals("LightBulb"))
+            {
+                if (lightBulbIndex < args.Blocks.Length)
+                {
+                    BlockType blockType = args.Blocks[lightBulbIndex].BlockType;
+
+                    switch (blockType)
+                    {
+                        case BlockType.Black:
+                            transform.renderer.material.color = Color.black;
+                            break;
+                        case BlockType.Blue:
+                            transform.renderer.material.color = Color.blue;
+                            break;
+                        case BlockType.Green:
+                            transform.renderer.material.color = Color.green;
+                            break;
+                        case BlockType.Orange:
+                            transform.renderer.material.color = new Color(1f, 0.5f, 0f, 1f);
+                            break;
+                        case BlockType.Purple:
+                            transform.renderer.material.color = new Color(1f, 0f, 1f, 1f);
+                            break;
+                        case BlockType.Red:
+                            transform.renderer.material.color = Color.red;
+                            break;
+                        case BlockType.White:
+                            transform.renderer.material.color = Color.white;
+                            break;
+                        case BlockType.Yellow:
+                            transform.renderer.material.color = Color.yellow;
+                            break;
+                    }
+                }
+                else
+                {
+                    transform.renderer.material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                }
+
+                ++lightBulbIndex;
+            }
+        }
     }
 }

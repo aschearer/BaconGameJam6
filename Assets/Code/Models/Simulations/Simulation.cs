@@ -17,7 +17,9 @@
 
         private readonly Ship ship;
 
-        public Simulation(PlayerId playerId)
+        private readonly int simulationIndex;
+
+        public Simulation(PlayerId playerId, int simulationIndex)
         {
             this.PlayerId = playerId;
             this.board = new Board(5, 15);
@@ -25,6 +27,7 @@
             this.ship.BlockDestroyed += this.OnBlockDestroyed;
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
+            this.simulationIndex = simulationIndex;
 
             this.board.Fill();
         }
@@ -34,6 +37,14 @@
             get
             {
                 return this.board;
+            }
+        }
+
+        public int SimulationIndex
+        {
+            get
+            {
+                return this.simulationIndex;
             }
         }
 
