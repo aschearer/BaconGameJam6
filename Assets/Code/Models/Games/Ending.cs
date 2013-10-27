@@ -31,7 +31,7 @@
                 if (this.endingTime >= DelayBeforeReset)
                 {
                     this.IsComplete = true;
-                    this.game.Start();
+                    this.game.Restart();
                 }
             }
         }

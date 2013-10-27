@@ -13,21 +13,59 @@
         private readonly Queue<IState> states;
 
         private bool isPaused;
+        private bool isActive;
 
-        public Game(params PlayerId[] players)
+        public Game()
         {
             this.states = new Queue<IState>();
-            this.Simulations = new Simulation[players.Length];
-            for (int i = 0; i < players.Length; i++)
+        }
+        
+        public void Start(int players)
+        {
+            this.Simulations = new Simulation[players];
+            for (int i = 0; i < players; i++)
             {
-                this.Simulations[i] = new Simulation(players[i], i);
+                this.Simulations[i] = new Simulation((PlayerId)i, i);
                 this.Simulations[i].Defeated += this.OnPlayerDefeated;
                 this.Simulations[i].SuccessfulMatch += this.OnSuccessfulMatch;
                 this.Simulations[i].EmptiedBoard += this.OnBoardEmptied;
             }
+   
+            this.isActive = true;
+            this.states.Enqueue(new Starting(this));
+        }
+        
+        public void Restart()
+        {
+            this.states.Enqueue(new Starting(this));
+        }
+        
+        public void Stop()
+        {
+            if (this.Simulations != null)
+            {
+                foreach (Simulation simulation in this.Simulations)
+                {
+                    simulation.Stop();
+                    simulation.Defeated -= this.OnPlayerDefeated;
+                    simulation.SuccessfulMatch -= this.OnSuccessfulMatch;
+                    simulation.EmptiedBoard -= this.OnBoardEmptied;
+                }
+                this.Simulations = null;
+            }
+
+            this.isActive = false;
         }
 
         public Simulation[] Simulations { get; private set; }
+        
+        public bool CanUpdate
+        {
+            get
+            {
+                return this.isActive;
+            }
+        }
         
         public bool InputEnabled
         {
@@ -63,11 +101,6 @@
                     }
                 }
             }
-        }
-
-        public void Start()
-        {
-            this.states.Enqueue(new Starting(this));
         }
 
         public void Update(TimeSpan elapsedTime)
