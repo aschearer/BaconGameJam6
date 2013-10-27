@@ -150,7 +150,7 @@ namespace BaconGameJam6.Models.Boards
         {
             this.rowsAdded++;
             this.shakeTimer = TimeSpan.FromSeconds(0.25);
-            this.PushBlocksDown();
+            this.PushBlocksDown(1);
             for (int col = 0; col < this.NumberOfColumns; col++)
             {
                 var block = this.blockFactory.CreateBlock(col, -1, this.Level);
@@ -187,7 +187,7 @@ namespace BaconGameJam6.Models.Boards
             }
         }
 
-        private void PushBlocksDown(int howFar = 1)
+        private void PushBlocksDown(int howFar)
         {
             foreach (var boardPiece in pieces)
             {
