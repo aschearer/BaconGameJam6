@@ -21,6 +21,8 @@ public class TextButton : MonoBehaviour {
 	void Start () {
         this.GameLoop.GameLoopStateChanged += this.OnGameLoopStateChanged;
         UpdateVisible(this.GameLoop.GameLoopState);
+        this.isSelected = (this.Action == ButtonAction.Start2);
+        UpdateColor();
 	}
     	
 	// Update is called once per frame
@@ -62,6 +64,14 @@ public class TextButton : MonoBehaviour {
             {
                 keyDown = true;
             }
+            
+            if (ButtonAction.Back == this.Action)
+            {
+                if (Input.GetAxis("Back") > 0)
+                {
+                    DoAction();
+                }
+            }
         }
     }
     
@@ -95,13 +105,21 @@ public class TextButton : MonoBehaviour {
     void UpdateColor()
     {
         Color newColor = Color.white;
-        if (mouseDown)
+
+        if (this.isSelected)
+        {
+            newColor = Color.cyan;
+        }
+
+        if (this.mouseDown)
         {
             newColor = Color.blue;
-        } else if (mouseOver)
+        }
+        else if (this.mouseOver)
         {
             newColor = Color.green;
         }
+
         if (this.transform.renderer.material.color != newColor)
         {
             this.transform.renderer.material.color = newColor;
@@ -132,7 +150,22 @@ public class TextButton : MonoBehaviour {
         }
     }
     
-    void DoAction()
+    private bool isSelected;
+    public bool IsSelected
+    {
+        get
+        {
+            return this.isSelected;
+        }
+        
+        set
+        {
+            this.isSelected = value;
+            UpdateColor();
+        }
+    }
+    
+    public void DoAction()
     {
         switch (this.Action)
         {
