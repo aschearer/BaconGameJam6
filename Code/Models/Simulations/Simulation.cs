@@ -67,7 +67,8 @@
             this.board.PushBlocksDown();
             this.board.AddNewRow();
 
-            if (this.board.Any(piece => piece is Block && piece.Row == this.board.NumberOfRows - 1))
+            if (this.board.Any(
+                piece => piece is Block && piece.IsActive && piece.Row == this.board.NumberOfRows - 1))
             {
                 this.Defeated(this, new EventArgs());
             }

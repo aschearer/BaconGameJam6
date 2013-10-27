@@ -27,11 +27,16 @@
             this.X = this.column = col;
             this.Y = this.row = row;
             this.Z = 0;
+            this.Opacity = 1;
+            this.IsActive = true;
         }
 
-        public float X { get; protected set; }
-        public float Y { get; protected set; }
-        public float Z { get; protected set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+        public float Opacity { get; set; }
+        public float Rotaiton { get; protected set; }
+        public bool IsActive { get; set; }
 
         public int Column
         {
@@ -88,7 +93,10 @@
 
         public void Destroy()
         {
-            this.Board.Remove(this);
+            foreach (var state in this.OnDestroy())
+            {
+                this.states.Enqueue(state);
+            }
         }
 
         public bool Equals(BoardPiece other)
@@ -114,6 +122,12 @@
 
         protected virtual void OnUpdate(TimeSpan elapsedTimeSpan)
         {
+        }
+
+        protected virtual IEnumerable<IState> OnDestroy()
+        {
+            this.Board.Remove(this);
+            return new IState[0];
         }
 
         protected virtual IEnumerable<IState> OnRowChanged(int oldRow, int newRow)

@@ -46,7 +46,7 @@ namespace BaconGameJam6.Models.Boards
             foreach (var boardPiece in pieces)
             {
                 var block = boardPiece as Block;
-                if (block != null)
+                if (block != null && block.IsActive)
                 {
                     block.Row++;
                 }
