@@ -353,4 +353,3 @@ MonoBehaviour:
   - {fileID: 100000, guid: 8136e06f90e72ba4e87e9870436fbf03, type: 2}
   Ship: {fileID: 100000, guid: 1fac04fda2856524f9239402654e3140, type: 2}
   Missile: {fileID: 100000, guid: d249e28096d487c40a049b05cb62ed71, type: 2}
-  Scale: 0
