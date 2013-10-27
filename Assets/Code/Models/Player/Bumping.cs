@@ -5,16 +5,19 @@
     using BaconGameJam6.Models.States;
     using BaconGameJam6.Models.Tweens;
 
-    public class Sliding : IState
+    public class Bumping : IState
     {
         private readonly Ship ship;
 
         private readonly ITween tween;
 
-        public Sliding(Ship ship)
+        public Bumping(Ship ship)
         {
             this.ship = ship;
-            this.tween = TweenFactory.Tween(ship.X, ship.Column, TimeSpan.FromSeconds(0.1));
+            var targetX = ship.Column + (ship.Column == 0 ? -0.2f : 0.2f);
+            this.tween = TweenFactory.Tween(ship.X, targetX, TimeSpan.FromSeconds(0.1));
+            this.tween.YoYos = true;
+            this.tween.Repeats = Repeat.Once;
         }
 
         public bool IsComplete

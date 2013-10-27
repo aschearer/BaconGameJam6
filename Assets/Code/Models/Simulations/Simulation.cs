@@ -53,17 +53,31 @@
 
         public void OnMoveLeft()
         {
-            if (this.ship.CanMove && this.ship.Column > 0)
+            if (this.ship.CanMove)
             {
-                this.ship.Column--;
+                if (this.ship.Column > 0)
+                {
+                    this.ship.Column--;
+                }
+                else
+                {
+                    this.ship.Bump();
+                }
             }
         }
 
         public void OnMoveRight()
         {
-            if (this.ship.CanMove && this.ship.Column < this.board.NumberOfColumns - 1)
+            if (this.ship.CanMove)
             {
-                this.ship.Column++;
+                if (this.ship.Column < this.board.NumberOfColumns - 1)
+                {
+                    this.ship.Column++;
+                }
+                else
+                {
+                    this.ship.Bump();
+                }
             }
         }
 

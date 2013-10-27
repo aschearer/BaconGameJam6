@@ -48,6 +48,12 @@
             this.CanFire = true;
         }
 
+        public void Bump()
+        {
+            this.CanMove = false;
+            this.AddState(new Bumping(this));
+        }
+
         public void RecordHit(Block block)
         {
             this.outstandingBlocks.Add(block);
