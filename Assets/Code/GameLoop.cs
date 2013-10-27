@@ -6,11 +6,11 @@ using BaconGameJam6.Models.Blocks;
 using BaconGameJam6.Models.Player;
 using System.Collections.Generic;
 
-public class GameLoop : MonoBehaviour {
-	
-	public GameObject Board;
-	public List<GameObject> Blocks;
-	public GameObject Ship;
+public class GameLoop : MonoBehaviour
+{
+    public GameObject Board;
+    public List<GameObject> Blocks;
+    public GameObject Ship;
 
 	private Simulation simulation;
 	
@@ -41,5 +41,4 @@ public class GameLoop : MonoBehaviour {
 	
 	void Update () {
 	}
-	
 }
