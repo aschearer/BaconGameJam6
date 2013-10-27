@@ -74,10 +74,15 @@ public class GameLoop : MonoBehaviour
                 bool isShip = blockView.tag.Equals("Ship");
                 float xPadding = isShip ? 90 : 0;
                 float yPadding = isShip ? 0 : 90;
-                blockView.transform.localEulerAngles = new Vector3(xPadding + boardPiece.Rotation, yPadding + boardPiece.Rotation, boardPiece.Rotation);
+                
                 if (isShip)
                 {
                     this.SetCursorVisiblity((Ship)boardPiece, blockView, this.boardsViews[i]);
+                    blockView.transform.localEulerAngles = new Vector3(xPadding + boardPiece.Rotation, yPadding, 0);
+                }
+                else
+                {
+                    blockView.transform.localEulerAngles = new Vector3(xPadding + boardPiece.Rotation, yPadding + boardPiece.Rotation, boardPiece.Rotation);
                 }
 
                 var color = blockView.renderer.material.color;
@@ -240,7 +245,7 @@ public class GameLoop : MonoBehaviour
 
     private void SetCursorVisiblity(Ship ship, GameObject shipView, GameObject boardView)
     {
-        shipView.SetActive(ship.IsActive);
+        shipView.transform.Find("Plane").gameObject.SetActive(ship.IsActive);
         boardView.transform.Find("BottomPlayerLayer").gameObject.SetActive(ship.IsActive);
     }
 }

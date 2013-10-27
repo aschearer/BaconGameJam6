@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Assets.Code.Models.Player;
+
     using BaconGameJam6.Models.Blocks;
     using BaconGameJam6.Models.Boards;
     using BaconGameJam6.Models.States;
@@ -96,7 +98,7 @@
 
         protected override IEnumerable<IState> OnDestroy()
         {
-            yield return new Flying(this, this.Board);
+            yield return new Destroying(this, this.Board);
         }
         
         private void UpdateLights(bool animate)
