@@ -21,6 +21,12 @@
 
         protected override void OnUpdate(TimeSpan elapsedTimeSpan)
         {
+            if (this.Y < 1)
+            {
+                this.Destroy();
+                return;
+            }
+
             this.Y -= Missile.Velocity;
             this.Row = (int)this.Y;
             var block = (Block)this.Board.FirstOrDefault(
