@@ -148,27 +148,10 @@
         {
             if (!e.IsMatch)
             {
-                Utilities.PlaySound("BoardShakeSound");
                 this.OnAddRow();
             }
             else
             {
-                switch (e.Blocks.Length)
-                {
-                    case 1:
-                        Debug.Log("Tile1CollectedSound");
-                        Utilities.PlaySound("Tile1CollectedSound");
-                        break;
-                    case 2:
-                        Debug.Log("Tile2CollectedSound");
-                        Utilities.PlaySound("Tile2CollectedSound");
-                        break;
-                    case 3:
-                        Debug.Log("Tile3CollectedSound");
-                        Utilities.PlaySound("Tile3CollectedSound");
-                        break;
-                }
-
                 this.SuccessfulMatch(this, new EventArgs());
             }
         }
