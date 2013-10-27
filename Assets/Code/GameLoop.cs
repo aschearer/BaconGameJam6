@@ -41,7 +41,6 @@ public class GameLoop : MonoBehaviour
         {
             this.boardsViews[i] = Instantiate(Board, new Vector3(startingX + 8 * i, 0, 0), Quaternion.identity) as GameObject;
             this.game.Simulations[i].BlockDestroyed += SetLights;
-            this.game.Simulations[i].Defeated += OnDefeated;
             foreach (BoardPiece boardPiece in this.game.Simulations[i].Board)
             {
                 this.blockViews[boardPiece.Id] = this.CreateViewFor(boardPiece, this.boardsViews[i]);
@@ -164,36 +163,6 @@ public class GameLoop : MonoBehaviour
         boardPieceView.transform.localPosition = new Vector3(boardPiece.X, boardPiece.Y, boardPiece.Z);
         boardPieceView.transform.parent = parent.transform;
         return boardPieceView;
-    }
-
-    private void OnDefeated(object sender, EventArgs args)
-    {
-        Simulation simulation = sender as Simulation;
-        GameObject board = this.boardsViews[simulation.SimulationIndex];
-        Transform[] allChildrenOfBoard = board.GetComponentsInChildren<Transform>();
-        foreach (Transform transform in allChildrenOfBoard)
-        {
-            if (transform.tag.Equals("Ship"))
-            {
-                Transform[] allChildrenOfShip = transform.GetComponentsInChildren<Transform>();
-
-                foreach (Transform shipChild in allChildrenOfShip)
-                {
-                    if (shipChild.tag.Equals("AimingLight"))
-                    {
-                        // Set the ship's light to the last block's color, unless the array is empty, in which case set the ship's light color to white.
-                        Color shipLightColor = new Color(1f, 1f, 1f, 1f);
-                        shipChild.renderer.material.color = shipLightColor;
-                    }
-                }
-            }
-            else if (transform.tag.Equals("AimingLight"))
-            {
-                // Set the ship's light to the last block's color, unless the array is empty, in which case set the ship's light color to white.
-                Color shipLightColor = new Color(1f, 1f, 1f, 1f);
-                transform.renderer.material.color = shipLightColor;
-            }
-        }
     }
 
     private void SetLights(object sender, MatchEventArgs args)

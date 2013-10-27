@@ -67,6 +67,7 @@
         public void Stop()
         {
             this.hasStarted = false;
+            this.ship.ResetOutstandingBlocks();
             this.ship.BlockDestroyed -= this.OnBlockDestroyed;
             this.ship.Match -= this.OnMatch;
         }
