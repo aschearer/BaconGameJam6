@@ -150,7 +150,6 @@ namespace BaconGameJam6.Models.Boards
         {
             this.rowsAdded++;
             this.shakeTimer = TimeSpan.FromSeconds(0.25);
-            //////GameObject.FindGameObjectWithTag("MainCamera").
             this.PushBlocksDown(1);
             for (int col = 0; col < this.NumberOfColumns; col++)
             {
