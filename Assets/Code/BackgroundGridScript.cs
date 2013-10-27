@@ -8,7 +8,7 @@ public class BackgroundGridScript : MonoBehaviour
 
     private const int GridWidth = 100;
     private const int GridHeight = 60;
-    private const float InitialZPosition = -10;
+    private const float InitialZPosition = -5;
     private const float MaximumZOffset = 0.2f;
     private const float MinimumSpeed = 0.2f;
     private const float MaximumSpeed = 1f;
@@ -32,7 +32,7 @@ public class BackgroundGridScript : MonoBehaviour
             for (int x = -GridWidth / 2; x < GridWidth / 2; ++x)
             {
                 GameObject backgroundCube = Instantiate(this.cubeModel, new Vector3(x / 2f, y / 2f, InitialZPosition), Quaternion.identity) as GameObject;
-                backgroundCube.renderer.material.color = Color.Lerp(Color.white, Color.black, Random.Range(0.33f, 0.66f));
+                backgroundCube.renderer.material.color = Color.Lerp(Color.Lerp(Color.white, Color.black, Random.Range(0.33f, 0.66f)), Color.blue, 0.1f);
 
                 this.allCubeModels.Add(new BackgroundCubeData()
                 {
