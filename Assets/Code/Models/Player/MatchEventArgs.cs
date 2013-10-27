@@ -9,7 +9,7 @@
     {
         private readonly Block[] blocks;
 
-        public MatchEventArgs(Block[] blocks)
+        public MatchEventArgs(Block[] blocks, bool animate)
         {
             Debug.Assert(blocks.Length == 3);
             this.blocks = blocks;
@@ -22,6 +22,7 @@
                     break;
                 }
             }
+            this.Animate = animate;
         }
 
         public Block[] Blocks
@@ -31,7 +32,8 @@
                 return this.blocks;
             }
         }
-
+  
+        public bool Animate { get; private set; }
         public bool IsMatch { get; private set; }
     }
 }

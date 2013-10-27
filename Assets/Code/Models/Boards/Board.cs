@@ -111,6 +111,7 @@ namespace BaconGameJam6.Models.Boards
                 {
                     Ship ship = piece as Ship;
                     ship.ReloadWeapon();
+                    ship.ResetOutstandingBlocks();
                     ship.Column = ship.StartingColumn;
                 }
             });

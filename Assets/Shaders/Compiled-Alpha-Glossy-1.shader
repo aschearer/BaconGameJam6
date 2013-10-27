@@ -7,7 +7,7 @@ Properties {
 }
 
 SubShader {
-    Tags {"Queue"="Transparent+2" "IgnoreProjector"="True" "RenderType"="Transparent"}
+    Tags {"Queue"="Transparent+1" "IgnoreProjector"="True" "RenderType"="Transparent"}
     LOD 300
 
     Alphatest Greater 0 ZWrite Off ColorMask RGB

@@ -51,6 +51,12 @@
             this.CanFire = true;
         }
 
+        public void ResetOutstandingBlocks()
+        {
+            this.outstandingBlocks.Clear();
+            UpdateLights(false);
+        }
+        
         public void Bump()
         {
             this.CanMove = false;
@@ -60,15 +66,18 @@
         public void RecordHit(Block block)
         {
             this.outstandingBlocks.Add(block);
-            if (this.BlockDestroyed != null)
-            {
-                this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));
-            }
+            UpdateLights(false);
 
             if (this.outstandingBlocks.Count == 3 || this.outstandingBlocks.Count == 2 && block.BlockType != this.outstandingBlocks[0].BlockType)
             {
-                this.Match(this, new MatchEventArgs(this.outstandingBlocks.ToArray()));
+                MatchEventArgs args = new MatchEventArgs(this.outstandingBlocks.ToArray(), false);
+                this.Match(this, args);
                 this.outstandingBlocks.Clear();
+                if (!args.IsMatch)
+                {
+                    this.outstandingBlocks.Add(block);
+                }
+                UpdateLights(true);
             }
         }
 
@@ -76,6 +85,14 @@
         {
             this.CanMove = false;
             yield return new Sliding(this);
+        }
+        
+        private void UpdateLights(bool animate)
+        {
+            if (this.BlockDestroyed != null)
+            {
+                this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray(), animate));
+            }
         }
     }
 }
