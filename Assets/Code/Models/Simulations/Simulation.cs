@@ -63,6 +63,7 @@
             this.hasStarted = true;
             this.ship.BlockDestroyed += this.OnBlockDestroyed;
             this.ship.Match += this.OnMatch;
+            this.board.RowAdded += this.OnRowAdded;
         }
 
         public void Stop()
@@ -71,6 +72,7 @@
             this.ship.ResetOutstandingBlocks();
             this.ship.BlockDestroyed -= this.OnBlockDestroyed;
             this.ship.Match -= this.OnMatch;
+            this.board.RowAdded -= this.OnRowAdded;
         }
 
         public void OnMoveLeft()
@@ -112,6 +114,9 @@
         {
             if (this.ship.CanFire)
             {
+                this.board.AddNewRow();
+                this.board.AddNewRow();
+                this.board.AddNewRow();
                 this.ship.FireMainWeapon();
             }
         }
@@ -119,12 +124,6 @@
         public void OnAddRow()
         {
             this.board.AddNewRow();
-
-            if (this.board.Any(
-                piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
-            {
-                this.OnDefeat();
-            }
         }
 
         public void Update(TimeSpan elapsedTime)
@@ -172,6 +171,15 @@
         {
             Utilities.PlaySound("Slam0");
             this.board.SlamNewRows();
+            if (this.board.Any(
+                piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
+            {
+                this.OnDefeat();
+            }
+        }
+
+        private void OnRowAdded(object sender, EventArgs e)
+        {
             if (this.board.Any(
                 piece => piece is Block && piece.IsActive && piece.Row == (this.board.NumberOfRows - 1)))
             {

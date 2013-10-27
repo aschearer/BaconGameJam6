@@ -15,6 +15,8 @@ namespace BaconGameJam6.Models.Boards
 
     public class Board : IEnumerable<BoardPiece>
     {
+        public event EventHandler<EventArgs> RowAdded;
+
         private static readonly Random Random = new Random();
 
         public readonly int NumberOfColumns;
@@ -28,7 +30,11 @@ namespace BaconGameJam6.Models.Boards
         private int rowsAdded;
 
         private TimeSpan shakeTimer = TimeSpan.Zero;
-        
+
+        private int rowsToAdd;
+
+        private TimeSpan rowTimer;
+
         public Vector3 TargetPosition {get; set; }
         
         public Board(int numberOfColumns, int numberOfRows)
@@ -121,6 +127,16 @@ namespace BaconGameJam6.Models.Boards
                     this.XOffset = this.YOffset = 0;
                 }
             }
+
+            if (this.rowsToAdd > 0)
+            {
+                this.rowTimer -= elapsedTime;
+                if (this.rowTimer <= TimeSpan.Zero)
+                {
+                    Debug.Log(this.rowsToAdd);
+                    this.AddRow();
+                }
+            }
         }
 
         public void Fill()
@@ -150,15 +166,32 @@ namespace BaconGameJam6.Models.Boards
 
         public void AddNewRow()
         {
+            this.rowsToAdd++;
             this.rowsAdded++;
+        }
+
+        private void AddRow()
+        {
+            this.rowsToAdd--;
+            this.rowTimer = TimeSpan.FromSeconds(0.1);
+            if (this.pieces.Any(
+                piece => piece is Block && piece.IsActive && piece.Row == (this.NumberOfRows - 1)))
+            {
+                return;
+            }
+
             this.shakeTimer = TimeSpan.FromSeconds(0.25);
-            //////GameObject.FindGameObjectWithTag("MainCamera").
             this.PushBlocksDown(1);
             for (int col = 0; col < this.NumberOfColumns; col++)
             {
                 var block = this.blockFactory.CreateBlock(col, -1, this.Level);
                 block.Row = 0;
                 this.Add(block);
+            }
+
+            if (this.RowAdded != null)
+            {
+                this.RowAdded(this, new EventArgs());
             }
         }
 
