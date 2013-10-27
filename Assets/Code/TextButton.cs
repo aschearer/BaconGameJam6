@@ -64,14 +64,6 @@ public class TextButton : MonoBehaviour {
             {
                 keyDown = true;
             }
-            
-            if (ButtonAction.Back == this.Action)
-            {
-                if (Input.GetAxis("Back") > 0)
-                {
-                    DoAction();
-                }
-            }
         }
     }
     

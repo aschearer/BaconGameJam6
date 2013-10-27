@@ -28,6 +28,24 @@ public class GameLoopStateEventArgs : EventArgs
     }
 }
 
+public enum PlayerStateEvent
+{
+    Joined,
+    Left,
+}
+
+public class PlayerStateEventArgs : EventArgs
+{
+    public PlayerStateEvent PlayerStateEvent { get; private set; }
+    public PlayerId PlayerId { get; private set; }
+
+    public PlayerStateEventArgs(PlayerStateEvent playerStateEvent, PlayerId playerId)
+    {
+        this.PlayerStateEvent = playerStateEvent;
+        this.PlayerId = playerId;
+    }
+}
+
 public class BoardTransform
 {
     public Vector3 position;
@@ -58,6 +76,7 @@ public class BoardTransformSet
 public class GameLoop : MonoBehaviour
 {
     public event EventHandler<GameLoopStateEventArgs> GameLoopStateChanged;
+    public event EventHandler<PlayerStateEventArgs> PlayerStateChanged;
 
     public GameObject Board;
     public List<GameObject> Blocks;
@@ -223,32 +242,53 @@ public class GameLoop : MonoBehaviour
         {
             return;
         }
-
-        for (int i = 0; i < this.game.Simulations.Length; i++)
+  
+        var startingSimulations = this.game.Simulations.Length;
+        for (int i = startingSimulations; i > 0; --i)
         {
-            int playerId = i + 1;
+            var simulation = this.game.Simulations[i - 1];
+            int playerId = i;
             if (Input.GetAxis("Fire" + playerId) > 0)
             {
-                this.game.OnFire(this.game.Simulations[i].PlayerId);
+                this.game.OnFire(simulation.PlayerId);
             }
             else
             {
-                this.game.OnReload(this.game.Simulations[i].PlayerId);
+                this.game.OnReload(simulation.PlayerId);
             }
 
             var horizontal = Input.GetAxis("Horizontal" + playerId);
             if (Math.Abs(horizontal) < 0.000005)
             {
-                this.game.OnStopMoving(this.game.Simulations[i].PlayerId);
+                this.game.OnStopMoving(simulation.PlayerId);
             }
             else if (horizontal < 0)
             {
-                this.game.OnMoveLeft(this.game.Simulations[i].PlayerId);
+                this.game.OnMoveLeft(simulation.PlayerId);
             }
             else if (horizontal > 0)
             {
-                this.game.OnMoveRight(this.game.Simulations[i].PlayerId);
+                this.game.OnMoveRight(simulation.PlayerId);
             }
+
+            if (Input.GetAxis("Back" + playerId) > 0)
+            {
+                //RemovePlayer(playerId);
+            }
+        }
+        
+        for (int i = startingSimulations; i < boardTransformSets.Length; i++)
+        {
+            int playerId = i + 1;
+            if ((Input.GetAxis("Fire" + playerId) > 0) || Input.GetAxis("Start" + playerId) > 0)
+            {
+                //AddPlayer(playerId);
+            }
+        }
+                
+        if (this.game.Simulations.Length == 0)
+        {
+            EndGame ();
         }
     }
 
