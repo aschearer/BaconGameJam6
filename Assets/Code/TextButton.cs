@@ -15,6 +15,7 @@ public class TextButton : MonoBehaviour {
     
     public ButtonAction Action;
     public GameLoop GameLoop;
+    private bool keyDown;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +27,41 @@ public class TextButton : MonoBehaviour {
 	void Update () {
         if (this.renderer.enabled)
         {
-            // $TODO: key text
+            // key text
+            KeyCode keyCode;
+            switch (this.Action)
+            {
+            case ButtonAction.Back:
+                keyCode = KeyCode.Escape;
+                break;
+            case ButtonAction.Start1:
+                keyCode = KeyCode.Alpha1;
+                break;
+            case ButtonAction.Start2:
+                keyCode = KeyCode.Alpha2;
+                break;
+            case ButtonAction.Start3:
+                keyCode = KeyCode.Alpha3;
+                break;
+            case ButtonAction.Start4:
+                keyCode = KeyCode.Alpha4;
+                break;
+            case ButtonAction.Help:
+                keyCode = KeyCode.Slash;
+                break;
+            default:
+                return;
+            }
+            
+            if (keyDown && Input.GetKeyUp(keyCode))
+            {
+                DoAction();
+                keyDown = false;
+            }
+            else if (!keyDown && Input.GetKeyDown(keyCode))
+            {
+                keyDown = true;
+            }
         }
     }
     
@@ -55,21 +90,26 @@ public class TextButton : MonoBehaviour {
     void OnMouseUpAsButton() {
         if (this.renderer.enabled)
         {
-            switch (this.Action)
-            {
-            case ButtonAction.Start1:
-            case ButtonAction.Start2:
-            case ButtonAction.Start3:
-            case ButtonAction.Start4:
-                this.GameLoop.StartNewGame((int)this.Action);
-                break;
-            case ButtonAction.Help:
-                // $TODO: show help
-                break;
-            case ButtonAction.Back:
-                this.GameLoop.EndGame();
-                break;
-            }
+            DoAction();
+        }
+    }
+    
+    void DoAction()
+    {
+        switch (this.Action)
+        {
+        case ButtonAction.Start1:
+        case ButtonAction.Start2:
+        case ButtonAction.Start3:
+        case ButtonAction.Start4:
+            this.GameLoop.StartNewGame((int)this.Action);
+            break;
+        case ButtonAction.Help:
+            // $TODO: show help
+            break;
+        case ButtonAction.Back:
+            this.GameLoop.EndGame();
+            break;
         }
 	}
 }
