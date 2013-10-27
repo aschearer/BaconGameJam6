@@ -85,33 +85,35 @@ public class GameLoop : MonoBehaviour
 
     private void ProcessInput()
     {
-        if (this.game.InputEnabled)
+        if (!this.game.InputEnabled)
         {
-            for (int i = 0; i < this.game.Simulations.Length; i++)
+            return;
+        }
+
+        for (int i = 0; i < this.game.Simulations.Length; i++)
+        {
+            int playerId = i + 1;
+            if (Input.GetAxis("Fire" + playerId) > 0)
             {
-                int playerId = i + 1;
-                if (Input.GetAxis("Fire" + playerId) > 0)
-                {
-                    this.game.OnFire(this.game.Simulations[i].PlayerId);
-                }
-                else
-                {
-                    this.game.OnReload(this.game.Simulations[i].PlayerId);
-                }
-    
-                var horizontal = Input.GetAxis("Horizontal" + playerId);
-                if (Math.Abs(horizontal) < 0.000005)
-                {
-                    this.game.OnStopMoving(this.game.Simulations[i].PlayerId);
-                }
-                else if (horizontal < 0)
-                {
-                    this.game.OnMoveLeft(this.game.Simulations[i].PlayerId);
-                }
-                else if (horizontal > 0)
-                {
-                    this.game.OnMoveRight(this.game.Simulations[i].PlayerId);
-                }
+                this.game.OnFire(this.game.Simulations[i].PlayerId);
+            }
+            else
+            {
+                this.game.OnReload(this.game.Simulations[i].PlayerId);
+            }
+
+            var horizontal = Input.GetAxis("Horizontal" + playerId);
+            if (Math.Abs(horizontal) < 0.000005)
+            {
+                this.game.OnStopMoving(this.game.Simulations[i].PlayerId);
+            }
+            else if (horizontal < 0)
+            {
+                this.game.OnMoveLeft(this.game.Simulations[i].PlayerId);
+            }
+            else if (horizontal > 0)
+            {
+                this.game.OnMoveRight(this.game.Simulations[i].PlayerId);
             }
         }
     }

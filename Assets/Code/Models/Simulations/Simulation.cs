@@ -11,18 +11,7 @@
     {
         public event EventHandler<EventArgs> SuccessfulMatch;
         public event EventHandler<EventArgs> Defeated;
-        public event EventHandler<MatchEventArgs> BlockDestroyed
-        {
-            add
-            {
-                this.ship.BlockDestroyed += value;
-            }
-
-            remove
-            {
-                this.ship.BlockDestroyed -= value;
-            }
-        }
+        public event EventHandler<MatchEventArgs> BlockDestroyed;
 
         private readonly Board board;
 
@@ -33,6 +22,7 @@
             this.PlayerId = playerId;
             this.board = new Board(5, 15);
             this.ship = new Ship(this.board, 2, this.board.NumberOfRows - 1, playerId);
+            this.ship.BlockDestroyed += this.OnBlockDestroyed;
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
 
@@ -125,6 +115,11 @@
             {
                 this.SuccessfulMatch(this, new EventArgs());
             }
+        }
+
+        private void OnBlockDestroyed(object sender, MatchEventArgs e)
+        {
+            this.BlockDestroyed(this, e);
         }
 
         public void OnReload()
