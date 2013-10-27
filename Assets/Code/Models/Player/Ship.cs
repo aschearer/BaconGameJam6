@@ -11,7 +11,8 @@
     {
         One,
         Two,
-        Three
+        Three,
+        Four
     }
 
     public class Ship : BoardPiece
