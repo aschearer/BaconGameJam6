@@ -27,5 +27,10 @@ namespace BaconGameJam6
 
             return Color.black;
         }
+
+        internal static void PlaySound(string soundName)
+        {
+            GameObject.Find(soundName).GetComponent<AudioSource>().Play();
+        }
     }
 }
