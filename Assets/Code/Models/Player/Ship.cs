@@ -93,6 +93,7 @@
 
         protected override IEnumerable<IState> OnColumnChanged(int oldColumn, int newColumn)
         {
+            Utilities.PlaySound("Move0");
             this.CanMove = false;
             yield return new Sliding(this);
         }
