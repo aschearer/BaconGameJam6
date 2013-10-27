@@ -12,14 +12,14 @@ InputManager:
     positiveButton: right
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 1
+    gravity: 1000
     dead: .00100000005
-    sensitivity: 1
+    sensitivity: 1000
     snap: 1
     invert: 0
     type: 0
     axis: 0
-    joyNum: 0
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Vertical
     descriptiveName: 
@@ -51,7 +51,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 0
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Fire2
     descriptiveName: Player 2 Fire
@@ -67,7 +67,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 0
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Fire3
     descriptiveName: 
@@ -156,14 +156,14 @@ InputManager:
     positiveButton: d
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 1
+    gravity: 1000
     dead: .00100000005
-    sensitivity: 1
+    sensitivity: 1000
     snap: 1
     invert: 0
     type: 0
     axis: 0
-    joyNum: 0
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Vertical
     descriptiveName: 
@@ -211,7 +211,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 0
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Fire3
     descriptiveName: 
