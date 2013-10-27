@@ -23,7 +23,7 @@ public class GameLoop : MonoBehaviour
     private GameObject[] boardsViews;
 
     private Dictionary<int, GameObject> blockViews;
-
+    
     void Start()
     {
         var players = new PlayerId[] { PlayerId.One, PlayerId.Two };
@@ -154,6 +154,8 @@ public class GameLoop : MonoBehaviour
         {
             if (transform.tag.Equals("LightBulb"))
             {
+                Color newColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+                
                 if (lightBulbIndex < args.Blocks.Length)
                 {
                     BlockType blockType = args.Blocks[lightBulbIndex].BlockType;
@@ -161,35 +163,33 @@ public class GameLoop : MonoBehaviour
                     switch (blockType)
                     {
                         case BlockType.Black:
-                            transform.renderer.material.color = Color.black;
+                            newColor = Color.black;
                             break;
                         case BlockType.Blue:
-                            transform.renderer.material.color = Color.blue;
+                            newColor = Color.blue;
                             break;
                         case BlockType.Green:
-                            transform.renderer.material.color = Color.green;
+                            newColor = Color.green;
                             break;
                         case BlockType.Orange:
-                            transform.renderer.material.color = new Color(1f, 0.5f, 0f, 1f);
+                            newColor = new Color(1f, 0.5f, 0f, 1f);
                             break;
                         case BlockType.Purple:
-                            transform.renderer.material.color = new Color(1f, 0f, 1f, 1f);
+                            newColor = new Color(1f, 0f, 1f, 1f);
                             break;
                         case BlockType.Red:
-                            transform.renderer.material.color = Color.red;
+                            newColor = Color.red;
                             break;
                         case BlockType.White:
-                            transform.renderer.material.color = Color.white;
+                            newColor = Color.white;
                             break;
                         case BlockType.Yellow:
-                            transform.renderer.material.color = Color.yellow;
+                            newColor = Color.yellow;
                             break;
                     }
                 }
-                else
-                {
-                    transform.renderer.material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
-                }
+                
+                transform.renderer.material.color = newColor;
 
                 ++lightBulbIndex;
             }
