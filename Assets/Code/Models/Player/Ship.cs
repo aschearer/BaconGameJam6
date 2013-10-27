@@ -24,7 +24,7 @@
         public event EventHandler<MatchEventArgs> Match;
         public event EventHandler<MatchEventArgs> BlockDestroyed;
 
-        private readonly List<Block> outstandingBlocks; 
+        private readonly List<Block> outstandingBlocks;
 
         public Ship(Board board, int col, int row, PlayerId playerId)
             : base(board, col, row)
@@ -47,7 +47,7 @@
             this.Board.Add(new Missile(this.Board, this, (int)Math.Round(this.X), this.Row));
             this.CanFire = false;
         }
-        
+
         public int StartingColumn { get; private set; }
 
         public void ReloadWeapon()
@@ -60,7 +60,7 @@
             this.outstandingBlocks.Clear();
             UpdateLights(false);
         }
-        
+
         public void Bump()
         {
             this.CanMove = false;
@@ -100,12 +100,31 @@
         {
             yield return new Destroying(this, this.Board);
         }
-        
+
         private void UpdateLights(bool animate)
         {
             if (this.BlockDestroyed != null)
             {
                 this.BlockDestroyed(this, new MatchEventArgs(this.outstandingBlocks.ToArray(), animate));
+            }
+
+            if (!animate)
+            {
+                bool mismatch = this.outstandingBlocks.Count > 1
+                    && this.outstandingBlocks[this.outstandingBlocks.Count - 1].BlockType
+                        != this.outstandingBlocks[this.outstandingBlocks.Count - 2].BlockType;
+                if (this.outstandingBlocks.Count == 1 || mismatch)
+                {
+                    Utilities.PlaySound("Piece1Hit0");
+                }
+                else if (this.outstandingBlocks.Count == 2)
+                {
+                    Utilities.PlaySound("Piece2Hit0");
+                }
+                else if (this.outstandingBlocks.Count == 3)
+                {
+                    Utilities.PlaySound("Piece3Hit0");
+                }
             }
         }
     }
