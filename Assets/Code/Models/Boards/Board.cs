@@ -28,7 +28,9 @@ namespace BaconGameJam6.Models.Boards
         private int rowsAdded;
 
         private TimeSpan shakeTimer = TimeSpan.Zero;
-
+        
+        public Vector3 TargetPosition {get; set; }
+        
         public Board(int numberOfColumns, int numberOfRows)
         {
             this.NumberOfColumns = numberOfColumns;
