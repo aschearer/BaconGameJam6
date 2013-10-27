@@ -21,7 +21,7 @@
         public Simulation()
         {
             this.board = new Board(5, 10);
-            this.ship = new Ship(this.board, 3, 9, PlayerId.One);
+            this.ship = new Ship(this.board, 2, 9, PlayerId.One);
             this.ship.Match += this.OnMatch;
             this.board.Add(this.ship);
 
