@@ -47,6 +47,13 @@ public class UIManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.Z))
+        {
+            this.player1StartPlane.SetActive(false);
+            this.player2StartPlane.SetActive(false);
+            this.player3StartPlane.SetActive(false);
+            this.player4StartPlane.SetActive(false);
+        }
     }
 
     public void PlayerStateChanged(object sender, PlayerStateEventArgs args)
