@@ -23,6 +23,7 @@ public class GameLoop : MonoBehaviour
     private GameObject[] boardsViews;
 
     private Dictionary<int, GameObject> blockViews;
+    private List<BlinkingLight> blinkingLights;
     
     void Start()
     {
@@ -32,6 +33,7 @@ public class GameLoop : MonoBehaviour
 
         this.boardsViews = new GameObject[this.game.Simulations.Length];
         this.blockViews = new Dictionary<int, GameObject>();
+        this.blinkingLights = new List<BlinkingLight>();
 
         int startingX = -8;
         for (int i = 0; i < this.game.Simulations.Length; i++)
@@ -47,9 +49,11 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
+        float elapsedTime = Time.deltaTime;
+        
         this.ProcessInput();
 
-        this.game.Update(TimeSpan.FromSeconds(Time.deltaTime));
+        this.game.Update(TimeSpan.FromSeconds(elapsedTime));
 
         var seenBlocks = new Dictionary<int, bool>();
         for (int i = 0; i < this.game.Simulations.Length; i++)
@@ -84,6 +88,16 @@ public class GameLoop : MonoBehaviour
             {
                 DestroyObject(this.blockViews[id]);
                 this.blockViews.Remove(id);
+            }
+        }
+        
+        for (var i = this.blinkingLights.Count; i > 0; --i)
+        {
+            BlinkingLight light = this.blinkingLights[i - 1];
+            light.Update(elapsedTime);
+            if (light.IsCompleted)
+            {
+                this.blinkingLights.RemoveAt(i - 1);
             }
         }
     }
@@ -149,7 +163,7 @@ public class GameLoop : MonoBehaviour
     private void SetLights(object sender, MatchEventArgs args)
     {
         Simulation simulation = sender as Simulation;
-
+                
         Transform[] allChildrenOfBoard = this.boardsViews[simulation.SimulationIndex].GetComponentsInChildren<Transform>();
         int lightBulbIndex = 0;
         foreach (Transform transform in allChildrenOfBoard)
@@ -190,8 +204,20 @@ public class GameLoop : MonoBehaviour
                             break;
                     }
                 }
+
+                this.blinkingLights.RemoveAll(light => (light.Transform == transform));
                 
-                transform.renderer.material.color = newColor;
+                if (args.Animate)
+                {
+                    if (transform.renderer.material.color != newColor)
+                    {
+                        this.blinkingLights.Add(new BlinkingLight(transform, transform.renderer.material.color, newColor));
+                    }
+                }
+                else
+                {                    
+                    transform.renderer.material.color = newColor;
+                }
 
                 ++lightBulbIndex;
             }
