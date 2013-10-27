@@ -114,9 +114,6 @@
         {
             if (this.ship.CanFire)
             {
-                this.board.AddNewRow();
-                this.board.AddNewRow();
-                this.board.AddNewRow();
                 this.ship.FireMainWeapon();
             }
         }
