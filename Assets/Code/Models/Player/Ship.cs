@@ -73,12 +73,17 @@
             if (this.outstandingBlocks.Count == 3 || this.outstandingBlocks.Count == 2 && block.BlockType != this.outstandingBlocks[0].BlockType)
             {
                 MatchEventArgs args = new MatchEventArgs(this.outstandingBlocks.ToArray(), false);
-                this.Match(this, args);
+                if (this.Match != null)
+                {
+                    this.Match(this, args);
+                }
+
                 this.outstandingBlocks.Clear();
                 if (!args.IsMatch)
                 {
                     this.outstandingBlocks.Add(block);
                 }
+
                 UpdateLights(true);
             }
         }

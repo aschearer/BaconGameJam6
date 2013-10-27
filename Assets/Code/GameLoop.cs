@@ -75,6 +75,10 @@ public class GameLoop : MonoBehaviour
                 float xPadding = isShip ? 90 : 0;
                 float yPadding = isShip ? 0 : 90;
                 blockView.transform.localEulerAngles = new Vector3(xPadding + boardPiece.Rotation, yPadding + boardPiece.Rotation, boardPiece.Rotation);
+                if (isShip)
+                {
+                    this.SetCursorVisiblity((Ship)boardPiece, blockView, this.boardsViews[i]);
+                }
 
                 var color = blockView.renderer.material.color;
                 color.a = boardPiece.Opacity;
@@ -232,5 +236,11 @@ public class GameLoop : MonoBehaviour
                 transform.renderer.material.color = shipLightColor;
             }
         }
+    }
+
+    private void SetCursorVisiblity(Ship ship, GameObject shipView, GameObject boardView)
+    {
+        shipView.SetActive(ship.IsActive);
+        boardView.transform.Find("BottomPlayerLayer").gameObject.SetActive(ship.IsActive);
     }
 }
