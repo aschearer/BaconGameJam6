@@ -8,15 +8,21 @@
 
     public class Starting : IState
     {
-        public Starting(IEnumerable<Simulation> simulations)
+        private Game game;
+        
+        public Starting(Game game)
         {
-            this.IsComplete = true;
+            this.game = game;
         }
 
         public bool IsComplete { get; private set; }
 
         public void Update(TimeSpan elapsedTime)
         {
+            if (!this.game.IsAnimating)
+            {
+                this.IsComplete = true;
+            }
         }
     }
 }

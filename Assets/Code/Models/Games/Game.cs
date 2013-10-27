@@ -27,6 +27,22 @@
         }
 
         public Simulation[] Simulations { get; private set; }
+        
+        public bool InputEnabled
+        {
+            get
+            {
+                return (this.states.Count == 0);
+            }            
+        }
+        
+        public bool IsAnimating
+        {
+            get
+            {
+                return this.Simulations.Any(simulation => simulation.Board.IsAnimating);
+            }
+        }
 
         public bool IsPaused
         {
@@ -50,7 +66,7 @@
 
         public void Start()
         {
-            this.states.Enqueue(new Starting(this.Simulations));
+            this.states.Enqueue(new Starting(this));
         }
 
         public void Update(TimeSpan elapsedTime)
@@ -91,7 +107,7 @@
         {
             if (this.Simulations.Count(simulation => simulation.IsDefeated) == this.Simulations.Length - 1)
             {
-                this.states.Enqueue(new Ending(this.Simulations));
+                this.states.Enqueue(new Ending(this));
             }
         }
 

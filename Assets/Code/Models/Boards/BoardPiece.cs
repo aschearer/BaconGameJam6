@@ -78,7 +78,7 @@
             }
         }
 
-        protected bool IsStateful
+        public bool IsStateful
         {
             get
             {

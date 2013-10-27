@@ -8,8 +8,11 @@
 
     public class Ending : IState
     {
-        public Ending(IEnumerable<Simulation> simulations)
+        private Game game;
+        
+        public Ending(Game game)
         {
+            this.game = game;
         }
 
         public bool IsComplete { get; private set; }

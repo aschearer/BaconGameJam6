@@ -4,6 +4,7 @@ namespace BaconGameJam6.Models.Boards
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     using BaconGameJam6.Models.Blocks;
 
@@ -35,6 +36,14 @@ namespace BaconGameJam6.Models.Boards
             }
         }
 
+        public bool IsAnimating
+        {
+            get
+            {
+                return this.pieces.Any(piece => piece.IsStateful);
+            }
+        }
+        
         public void Add(BoardPiece piece)
         {
             this.pieces.Add(piece);

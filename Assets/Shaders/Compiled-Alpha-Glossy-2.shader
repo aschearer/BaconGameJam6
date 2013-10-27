@@ -1,21 +1,21 @@
 Shader "Transparent/Specular" {
 Properties {
-	_Color ("Main Color", Color) = (1,1,1,1)
-	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 0)
-	_Shininess ("Shininess", Range (0.01, 1)) = 0.078125
-	_MainTex ("Base (RGB) TransGloss (A)", 2D) = "white" {}
+    _Color ("Main Color", Color) = (1,1,1,1)
+    _SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 0)
+    _Shininess ("Shininess", Range (0.01, 1)) = 0.078125
+    _MainTex ("Base (RGB) TransGloss (A)", 2D) = "white" {}
 }
 
 SubShader {
-	Tags {"Queue"="Transparent+1" "IgnoreProjector"="True" "RenderType"="Transparent"}
-	LOD 300
+    Tags {"Queue"="Transparent+1" "IgnoreProjector"="True" "RenderType"="Transparent"}
+    LOD 300
 
-	Alphatest Greater 0 ZWrite Off ColorMask RGB
-	
-	Pass {
-		Name "FORWARD"
-		Tags { "LightMode" = "ForwardBase" }
-		Blend SrcAlpha OneMinusSrcAlpha
+    Alphatest Greater 0 ZWrite Off ColorMask RGB
+    
+    Pass {
+        Name "FORWARD"
+        Tags { "LightMode" = "ForwardBase" }
+        Blend SrcAlpha OneMinusSrcAlpha
 Program "vp" {
 // Vertex combos: 4
 //   opengl - ALU: 6 to 60
@@ -41,8 +41,8 @@ Vector 18 [_MainTex_ST]
 "!!ARBvp1.0
 # 31 ALU
 PARAM c[19] = { { 1 },
-		state.matrix.mvp,
-		program.local[5..18] };
+        state.matrix.mvp,
+        program.local[5..18] };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -1215,8 +1215,8 @@ Vector 10 [_MainTex_ST]
 "!!ARBvp1.0
 # 6 ALU
 PARAM c[11] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..10] };
+        state.matrix.mvp,
+        program.local[5..10] };
 MAD result.texcoord[0].xy, vertex.texcoord[0], c[10], c[10].zwzw;
 MAD result.texcoord[1].xy, vertex.texcoord[1], c[9], c[9].zwzw;
 DP4 result.position.w, vertex.position, c[4];
@@ -1934,8 +1934,8 @@ Vector 16 [_MainTex_ST]
 "!!ARBvp1.0
 # 19 ALU
 PARAM c[17] = { { 1 },
-		state.matrix.mvp,
-		program.local[5..16] };
+        state.matrix.mvp,
+        program.local[5..16] };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -3041,8 +3041,8 @@ Vector 26 [_MainTex_ST]
 "!!ARBvp1.0
 # 60 ALU
 PARAM c[27] = { { 1, 0 },
-		state.matrix.mvp,
-		program.local[5..26] };
+        state.matrix.mvp,
+        program.local[5..26] };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -4538,7 +4538,7 @@ SetTexture 0 [_MainTex] 2D
 OPTION ARB_precision_hint_fastest;
 # 24 ALU, 1 TEX
 PARAM c[6] = { program.local[0..4],
-		{ 0, 128, 2 } };
+        { 0, 128, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -4896,7 +4896,7 @@ SetTexture 1 [unity_Lightmap] 2D
 OPTION ARB_precision_hint_fastest;
 # 7 ALU, 2 TEX
 PARAM c[2] = { program.local[0],
-		{ 8 } };
+        { 8 } };
 TEMP R0;
 TEMP R1;
 TEX R0, fragment.texcoord[0], texture[0], 2D;
@@ -5105,9 +5105,9 @@ SetTexture 2 [unity_LightmapInd] 2D
 OPTION ARB_precision_hint_fastest;
 # 29 ALU, 3 TEX
 PARAM c[6] = { program.local[0..2],
-		{ 8, -0.40824828, -0.70710677, 0.57735026 },
-		{ 0.81649655, 0, 0.57735026, 128 },
-		{ -0.40824831, 0.70710677, 0.57735026 } };
+        { 8, -0.40824828, -0.70710677, 0.57735026 },
+        { 0.81649655, 0, 0.57735026, 128 },
+        { -0.40824831, 0.70710677, 0.57735026 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -5497,12 +5497,12 @@ Keywords { "DIRECTIONAL" "LIGHTMAP_ON" "DIRLIGHTMAP_ON" }
 }
 
 }
-	}
-	Pass {
-		Name "FORWARD"
-		Tags { "LightMode" = "ForwardAdd" }
-		ZWrite Off Blend One One Fog { Color (0,0,0,0) }
-		Blend SrcAlpha One
+    }
+    Pass {
+        Name "FORWARD"
+        Tags { "LightMode" = "ForwardAdd" }
+        ZWrite Off Blend One One Fog { Color (0,0,0,0) }
+        Blend SrcAlpha One
 Program "vp" {
 // Vertex combos: 5
 //   opengl - ALU: 14 to 19
@@ -5523,8 +5523,8 @@ Vector 16 [_MainTex_ST]
 "!!ARBvp1.0
 # 18 ALU
 PARAM c[17] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..16] };
+        state.matrix.mvp,
+        program.local[5..16] };
 TEMP R0;
 TEMP R1;
 MUL R1.xyz, vertex.normal, c[15].w;
@@ -6545,8 +6545,8 @@ Vector 12 [_MainTex_ST]
 "!!ARBvp1.0
 # 14 ALU
 PARAM c[13] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..12] };
+        state.matrix.mvp,
+        program.local[5..12] };
 TEMP R0;
 MUL R0.xyz, vertex.normal, c[11].w;
 DP3 result.texcoord[1].z, R0, c[7];
@@ -7482,8 +7482,8 @@ Vector 16 [_MainTex_ST]
 "!!ARBvp1.0
 # 19 ALU
 PARAM c[17] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..16] };
+        state.matrix.mvp,
+        program.local[5..16] };
 TEMP R0;
 TEMP R1;
 MUL R1.xyz, vertex.normal, c[15].w;
@@ -8528,8 +8528,8 @@ Vector 16 [_MainTex_ST]
 "!!ARBvp1.0
 # 18 ALU
 PARAM c[17] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..16] };
+        state.matrix.mvp,
+        program.local[5..16] };
 TEMP R0;
 TEMP R1;
 MUL R1.xyz, vertex.normal, c[15].w;
@@ -9555,8 +9555,8 @@ Vector 16 [_MainTex_ST]
 "!!ARBvp1.0
 # 17 ALU
 PARAM c[17] = { program.local[0],
-		state.matrix.mvp,
-		program.local[5..16] };
+        state.matrix.mvp,
+        program.local[5..16] };
 TEMP R0;
 TEMP R1;
 MUL R1.xyz, vertex.normal, c[15].w;
@@ -10571,7 +10571,7 @@ SetTexture 1 [_LightTexture0] 2D
 OPTION ARB_precision_hint_fastest;
 # 29 ALU, 2 TEX
 PARAM c[5] = { program.local[0..3],
-		{ 0, 128, 2 } };
+        { 0, 128, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -10957,7 +10957,7 @@ SetTexture 0 [_MainTex] 2D
 OPTION ARB_precision_hint_fastest;
 # 24 ALU, 1 TEX
 PARAM c[5] = { program.local[0..3],
-		{ 0, 128, 2 } };
+        { 0, 128, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -11301,7 +11301,7 @@ SetTexture 2 [_LightTextureB0] 2D
 OPTION ARB_precision_hint_fastest;
 # 35 ALU, 3 TEX
 PARAM c[5] = { program.local[0..3],
-		{ 0, 128, 0.5, 2 } };
+        { 0, 128, 0.5, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -11742,7 +11742,7 @@ SetTexture 2 [_LightTexture0] CUBE
 OPTION ARB_precision_hint_fastest;
 # 31 ALU, 3 TEX
 PARAM c[5] = { program.local[0..3],
-		{ 0, 128, 2 } };
+        { 0, 128, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -12153,7 +12153,7 @@ SetTexture 1 [_LightTexture0] 2D
 OPTION ARB_precision_hint_fastest;
 # 26 ALU, 2 TEX
 PARAM c[5] = { program.local[0..3],
-		{ 0, 128, 2 } };
+        { 0, 128, 2 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -12512,7 +12512,7 @@ Keywords { "DIRECTIONAL_COOKIE" }
 }
 
 }
-	}
+    }
 
 #LINE 31
 
