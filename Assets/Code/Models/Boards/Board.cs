@@ -85,10 +85,7 @@ namespace BaconGameJam6.Models.Boards
             this.rowsAdded = 0;
             this.pieces.ForEach(piece =>
             {
-                if (!(piece is Ship))
-                {
-                    piece.Destroy();
-                }
+                piece.Destroy();
             });
         }
         

@@ -105,7 +105,8 @@ public class GameLoop : MonoBehaviour
         this.blinkingLights = new List<BlinkingLight>();
 
         this.game = new Game();
-        this.StartNewGame(0);
+        this.boardsViews = new GameObject[this.game.Simulations.Length];
+        this.blockViews = new Dictionary<int, GameObject>();
     }
     
     private GameLoopState gameLoopState;
@@ -131,8 +132,6 @@ public class GameLoop : MonoBehaviour
         this.GameLoopState = GameLoopState.Playing;
         
         this.game.Start(playerCount);
-        this.boardsViews = new GameObject[this.game.Simulations.Length];
-        this.blockViews = new Dictionary<int, GameObject>();
 
         for (int i = 0; i < playerCount; i++)
         {
@@ -177,7 +176,7 @@ public class GameLoop : MonoBehaviour
             }
         }
         
-        this.ProcessInput();
+        this.ProcessInput(elapsedTime);
 
         if (!this.game.CanUpdate)
         {
@@ -248,11 +247,14 @@ public class GameLoop : MonoBehaviour
             }
         }
     }
-
-    private void ProcessInput()
+ 
+    private float[] ignoreInputTime = new float[4];
+    private static readonly float IgnoreTime = 0.2f;
+    
+    private void ProcessInput(float elapsedTime)
     {
         bool updateBoards = false;
-        bool hasPlayers = this.game.PlayerCount != 0;
+        bool hadPlayers = this.game.PlayerCount != 0;
         bool canUpdate = this.game.CanUpdate;
         
         for (int i = 0; i < this.game.Simulations.Length; i++)
@@ -262,29 +264,41 @@ public class GameLoop : MonoBehaviour
             
             if (simulation.HasPlayer && canUpdate)
             {
-                if (Input.GetAxis("Fire" + inputId) > 0)
+                bool ignoreInput = false;
+                if (ignoreInputTime[(int)simulation.PlayerId] > 0f)
                 {
-                    this.game.OnFire(simulation.PlayerId);
+                    ignoreInputTime[(int)simulation.PlayerId] -= elapsedTime;
+                    ignoreInput = (ignoreInputTime[(int)simulation.PlayerId] > 0f);
                 }
-                else
+                
+                ignoreInput = ignoreInput || !simulation.IsActive;
+                
+                if (!ignoreInput)
                 {
-                    this.game.OnReload(simulation.PlayerId);
+                    if (Input.GetAxis("Fire" + inputId) > 0)
+                    {
+                        this.game.OnFire(simulation.PlayerId);
+                    }
+                    else
+                    {
+                        this.game.OnReload(simulation.PlayerId);
+                    }
+        
+                    var horizontal = Input.GetAxis("Horizontal" + inputId);
+                    if (Math.Abs(horizontal) < 0.000005)
+                    {
+                        this.game.OnStopMoving(simulation.PlayerId);
+                    }
+                    else if (horizontal < 0)
+                    {
+                        this.game.OnMoveLeft(simulation.PlayerId);
+                    }
+                    else if (horizontal > 0)
+                    {
+                        this.game.OnMoveRight(simulation.PlayerId);
+                    }
                 }
-    
-                var horizontal = Input.GetAxis("Horizontal" + inputId);
-                if (Math.Abs(horizontal) < 0.000005)
-                {
-                    this.game.OnStopMoving(simulation.PlayerId);
-                }
-                else if (horizontal < 0)
-                {
-                    this.game.OnMoveLeft(simulation.PlayerId);
-                }
-                else if (horizontal > 0)
-                {
-                    this.game.OnMoveRight(simulation.PlayerId);
-                }
-    
+        
                 if (Input.GetAxis("Back" + inputId) > 0)
                 {
                     RemovePlayer(simulation.PlayerId);
@@ -297,17 +311,26 @@ public class GameLoop : MonoBehaviour
                 {
                     AddPlayer(simulation.PlayerId);
                     updateBoards = true;
+                    this.ignoreInputTime[(int)simulation.PlayerId] = IgnoreTime;
                 }
             }
         }
                 
-        if (hasPlayers && (this.game.PlayerCount == 0))
+        if (hadPlayers && (this.game.PlayerCount == 0))
         {
             EndGame();
         }
         else if (updateBoards)
         {
-            UpdateBoards();
+            if (!hadPlayers)
+            {
+                this.GameLoopState = GameLoopState.Playing;
+                this.game.Start(0);
+            }
+            else
+            {
+                UpdateBoards();
+            }
         }
     }
     
@@ -339,7 +362,19 @@ public class GameLoop : MonoBehaviour
     private void SpawnBoard(int i, int playerCount)
     {
         BoardTransformSet boardTransformSet = boardTransformSets[playerCount];
-        BoardTransform boardTransform = boardTransformSet.Transforms[i];
+        int relativeCount = 0;
+        for (var ii = 0; ii < this.game.Simulations.Length; ++ii)
+        {
+            if (i == ii)
+            {
+                break;
+            }
+            if (this.game.Simulations[ii].HasPlayer)
+            {
+                ++relativeCount;
+            }
+        }
+        BoardTransform boardTransform = boardTransformSet.Transforms[relativeCount];
 
         this.boardsViews[i] = Instantiate(Board, boardTransform.position, Quaternion.identity) as GameObject;
         this.boardsViews[i].transform.localScale = boardTransform.scale;
@@ -356,22 +391,17 @@ public class GameLoop : MonoBehaviour
         int playerCount = this.game.PlayerCount;
         BoardTransformSet boardTransformSet = boardTransformSets[playerCount];
         
+        var relative = 0;
         for (var i = 0; i < this.game.Simulations.Length; ++i)
         {
             var simulation = this.game.Simulations[i];
             if (simulation.HasPlayer)
             {
-                BoardTransform boardTransform = boardTransformSet.Transforms[i];
+                BoardTransform boardTransform = boardTransformSet.Transforms[relative];
                 simulation.Board.TargetPosition = boardTransform.position;
+                ++relative;
             }
         }
-        
-        // Add, remove, move boards
-        //int oldCount = this.boardsViews.Length;
-        //int newCount = this.game.Simulations.Length;
-        //if (oldCount != newCount)
-        //{
-        //}
         
         // $TODO: animate boards moving and leaving
     }
@@ -427,7 +457,7 @@ public class GameLoop : MonoBehaviour
                 {
                     if (transform.renderer.material.color != newColor)
                     {
-                        this.blinkingLights.Add(new BlinkingLight(transform, transform.renderer.material.color, newColor, lightBulbIndex, args.IsMatch));
+                        this.blinkingLights.Add(new BlinkingLight(simulation, transform, transform.renderer.material.color, newColor, lightBulbIndex, args.IsMatch));
                     }
                 }
                 else

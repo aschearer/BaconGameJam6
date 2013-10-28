@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 
 using UnityEngine;
+using BaconGameJam6.Models.Simulations;
 
 public class BlinkingLight
 {
+    private Simulation simulation;
     private Color colorToBlink;
     private Color colorToEnd;
     private float elapsedTime = 0f;
@@ -16,8 +18,9 @@ public class BlinkingLight
     private static readonly float TotalMatchBlinkTime = 1.12f;
     private static readonly float TotalMatchOnTime = 0.96f;
     
-    public BlinkingLight(Transform transform, Color colorToBlink, Color colorToEnd, int offset, bool isMatch)
+    public BlinkingLight(Simulation simulation, Transform transform, Color colorToBlink, Color colorToEnd, int offset, bool isMatch)
     {
+        this.simulation = simulation;
         this.Transform = transform;
         this.colorToBlink = colorToBlink;
         this.colorToEnd = colorToEnd;
@@ -31,6 +34,12 @@ public class BlinkingLight
     public void Update(float elapsedTime)
     {
         this.elapsedTime += elapsedTime;
+        
+        if (!simulation.HasPlayer)
+        {
+            this.IsCompleted = true;
+            return;
+        }
         
         if (this.elapsedTime >= (this.isMatch ? TotalMatchBlinkTime : TotalFailBlinkTime))
         {

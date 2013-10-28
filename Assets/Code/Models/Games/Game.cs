@@ -18,14 +18,18 @@
         public Game()
         {
             this.states = new Queue<IState>();
+            this.Simulations = new Simulation[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                this.Simulations[i] = new Simulation((PlayerId)i, i);
+            }
         }
         
         public void Start(int players)
         {
-            this.Simulations = new Simulation[4];
             for (int i = 0; i < 4; i++)
             {
-                this.Simulations[i] = new Simulation((PlayerId)i, i);
                 this.Simulations[i].Defeated += this.OnPlayerDefeated;
                 this.Simulations[i].SuccessfulMatch += this.OnSuccessfulMatch;
                 this.Simulations[i].EmptiedBoard += this.OnBoardEmptied;
@@ -61,16 +65,12 @@
         
         public void Stop()
         {
-            if (this.Simulations != null)
+            foreach (Simulation simulation in this.Simulations)
             {
-                foreach (Simulation simulation in this.Simulations)
-                {
-                    simulation.Stop();
-                    simulation.Defeated -= this.OnPlayerDefeated;
-                    simulation.SuccessfulMatch -= this.OnSuccessfulMatch;
-                    simulation.EmptiedBoard -= this.OnBoardEmptied;
-                }
-                this.Simulations = null;
+                simulation.Stop();
+                simulation.Defeated -= this.OnPlayerDefeated;
+                simulation.SuccessfulMatch -= this.OnSuccessfulMatch;
+                simulation.EmptiedBoard -= this.OnBoardEmptied;
             }
 
             this.isActive = false;
