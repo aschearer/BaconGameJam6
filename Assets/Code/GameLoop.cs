@@ -91,9 +91,9 @@ public class GameLoop : MonoBehaviour
     private static readonly BoardTransformSet[] boardTransformSets =
     {
         new BoardTransformSet(-4, 1f),
-        new BoardTransformSet(-7, 1f, 1, 1f),
+        new BoardTransformSet(-8, 1f, 0, 1f),
         new BoardTransformSet(-12, 1f, -4, 1f, 4, 1f),
-        new BoardTransformSet(-10, 1f, -4, 1f, 2, 1f, 8, 1f),
+        new BoardTransformSet(-14.5f, 1f, -7.5f, 1f, -0.5f, 1f, 6.5f, 1f),
     };
 
     private Dictionary<int, GameObject> blockViews;
@@ -224,7 +224,7 @@ public class GameLoop : MonoBehaviour
     
                     seenBlocks[boardPiece.Id] = true;
                 }
-    
+
                 this.boardsViews[i].transform.localPosition = new Vector3(simulation.Board.TargetPosition.x + simulation.Board.XOffset, simulation.Board.YOffset, 0);
             }
         }
@@ -363,7 +363,7 @@ public class GameLoop : MonoBehaviour
     
     private void SpawnBoard(int i, int playerCount)
     {
-        BoardTransformSet boardTransformSet = boardTransformSets[playerCount];
+        BoardTransformSet boardTransformSet = boardTransformSets[playerCount - 1];
         int relativeCount = 0;
         for (var ii = 0; ii < this.game.Simulations.Length; ++ii)
         {
@@ -391,7 +391,7 @@ public class GameLoop : MonoBehaviour
     private void UpdateBoards()
     {
         int playerCount = this.game.PlayerCount;
-        BoardTransformSet boardTransformSet = boardTransformSets[playerCount];
+        BoardTransformSet boardTransformSet = boardTransformSets[playerCount - 1];
         
         var relative = 0;
         for (var i = 0; i < this.game.Simulations.Length; ++i)
