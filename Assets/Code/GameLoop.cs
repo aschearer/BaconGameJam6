@@ -107,6 +107,8 @@ public class GameLoop : MonoBehaviour
         this.game = new Game();
         this.boardsViews = new GameObject[this.game.Simulations.Length];
         this.blockViews = new Dictionary<int, GameObject>();
+
+        this.StartNewGame(2);
     }
     
     private GameLoopState gameLoopState;
